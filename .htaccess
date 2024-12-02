@@ -1,0 +1,7 @@
+Options +FollowSymLinks
+RewriteEngine On
+
+RewriteRule ^reports/reporte/([0-9]+)$ reports/reporte.php?idboleta=$1 
+
+RewriteRule ^http://192.168.0.10/querysheet/reports/reporte/([0-9]+)$ http://192.168.164.120/querysheet/reports/reporte.php?idboleta=$1
+

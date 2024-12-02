@@ -1,0 +1,11 @@
+[
+    { "value" : 1, "text" : "Director"},
+    { "value" : 2, "text" : "Profesor de Aula"},
+    { "value" : 3, "text" : "Trabajador Servicio"},
+    { "value" : 4, "text" : "Auxiliar de Educación"},
+    { "value" : 5, "text" : "Profesor por hora"},
+    { "value" : 6, "text" : "Coordinador(a)"},
+    { "value" : 7, "text" : "Auxiliar de Biblioteca"},
+    { "value" : 8, "text" : "Auxiliar de Laboratorio"},
+    { "value" : 9, "text" : "Secretaria"}
+]

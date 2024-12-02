@@ -1,0 +1,447 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@200;300;400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Open+Sans&display=swap');
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    box-shadow: 0;
+}
+
+/* VARIABLE DE COLOR */
+:root{
+    --bg-container: #eeecec;
+    --bg-cards: #fff;
+    --fg-cards: #6b6b6bc7;
+    --df-cards: rgba(0, 0, 0, 0.4);
+    --titulo-card: #12203a;
+    --descripcion-card: #2d3236;
+    --fa-edit: #207e57;
+    --border-active: rgb(46, 72, 155);
+    --fg-btn-active:rgb(27, 43, 117);
+    --bg-btn-active: rgb(46, 81, 155);
+    --bx-shadow-active: #0d2552;
+    --bg-btn-update: rgb(207, 216, 223);
+    --btn-update-i: #4e83a7;
+    --bg-title: rgb(58, 104, 116);
+    --bg-btn-cancelar:#525252d7;
+    --fg-btn-cancelar:rgb(255, 255, 255);
+    
+    --bg-btn-modificar:#14668b;
+    --fg-btn-modificar:rgb(255, 255, 255);
+}
+
+/* THEMA - OSCURO */
+.dark-theme{
+    /* Variables */
+    --bg-container: rgb(26, 25, 25);
+    --bg-cards: rgb(13, 13, 14);
+    --fg-cards: rgba(47, 47, 54, 0.884);
+    --df-cards: rgba(26, 26, 31, 0.575);
+    --titulo-card: rgb(141, 147, 179);
+    --descripcion-card: rgba(146, 143, 143, 0.8);
+    --fa-edit: #2c788b;
+    --border-active: rgb(54, 77, 150);
+    --fg-btn-active:rgb(52, 70, 151);
+    --bg-btn-active: rgb(37, 60, 110);
+    --bx-shadow-active: #314775;
+    --bg-btn-update: rgba(84, 107, 128, 0.815);
+    --btn-update-i: #204055;
+    --bg-title: rgb(19, 62, 73);
+    --bg-btn-cancelar:rgb(56, 56, 61);
+    --fg-btn-cancelar:rgb(229, 226, 226);
+
+    --bg-btn-modificar:#114861;
+    --fg-btn-modificar:rgb(255, 255, 255);
+}
+
+/* TITULO CONTENIDO */
+.title-content{
+    position: absolute;
+    width: 96%;
+    display: inline-block;
+    top: 10px;
+    left: 0px;
+    right: 0px;
+    background: #347e85;
+    color: #ccc;
+    text-align: center;
+    text-indent: 10px;
+    font-family: 'Poppins', sans-serif;
+    font-weight: 600;
+    font-size: 22px;
+    border-radius: 4px;
+    box-shadow: 0 0 5px #6a6a6a;
+    /* margin: 0px auto; */
+    padding: 10px;
+    margin: auto;
+}
+
+.group-cards{
+    /* max-width: 1200px; */
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-wrap: wrap;                /* Controlar los elemntos hijos */
+    justify-content:center;           /* Centrado horizontal */
+    /* align-items: center;  */     /* Centrado vertical */
+    align-content: space-around;
+    padding: 20px auto;
+    margin: 20px auto;
+    scroll-behavior: smooth;
+    
+    /* background: rgb(81, 110, 108); */
+}
+.group-cards .card{
+    box-sizing: border-box; /* DEFINIR TAMAÑO con padding y margin */
+    width: auto;
+    height: 250px;
+    flex: 1 0 425px;
+    flex-grow: unset;
+    border-radius: 5px;
+    background: var(--bg-cards);
+    color: var(--fg-cards);
+    box-shadow: 0 0px 2px rgba(0, 0, 0, 0.2);
+    overflow: hidden;
+    text-align: center;
+    transform: rotateY(0%);
+    border: 1px solid #a0a0a096;
+    transition: all 0.25s;
+    margin: 15px 10px;
+    
+}
+.group-cards .card:hover{
+    transform: translateY(-1.5%);
+    box-shadow: 0px 5px 15px var(--df-cards);
+}
+
+.imagen-responsivo,
+.group-cards .card img{
+    width: 100%;
+    height: 250px;
+    background-size: cover;
+    object-fit: cover;
+    object-position: center center;
+    border-bottom: 1px solid rgba(224, 221, 221, 0.767);
+    opacity: var(--opacity-img);
+}
+.group-cards .card .header-card{
+    width: 100%;
+    max-height: 39px;
+    height: 39px;
+    display: flex;
+    /* flex-wrap: wrap; */
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-top: 6px;
+    margin-bottom: 2px;
+    padding: 0px 10px;
+    /* border: 1px solid teal; */
+}
+
+.group-cards .card .header-card h4{
+    /* max-width: 70%; */
+    width: auto;
+    display: inline-block;
+    height: auto;
+    text-justify: initial;
+    font-family: 'Open Sans', sans-serif;
+    font-weight: 600;
+    font-size: 16px;
+    text-align: left;
+    line-height: 18px;
+    color: var(--titulo-card);
+    margin: 0px;
+   /*  border: 1px solid red; */
+}
+.group-cards .card .header-card h4::selection{
+    background: #2f7279;
+    color: #fff;
+}
+
+
+.group-cards .card .options-icon{
+    max-width: 35%;
+    width: auto;
+    height: auto;
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-end;
+    align-items: center;
+    /* border: 1px solid orangered; */
+}
+
+.options,
+.card .header-card .options-icon .options{
+    list-style: none;
+    text-align: center;
+    margin-left: 10px;
+}
+
+.options i,
+.card .header-card .options-icon .options i{
+    color: rgb(26, 24, 24);
+    font-size: 17px;
+    font-weight: 400;
+    /* background: #d0d3d2;
+    width: 22px;
+    height: 22px; */
+    /* border-radius: 50%;
+    padding: 0px; */
+}
+
+/* ESTILO DE LOS TITULOS */
+.card .header-card .options-icon .options i.tip:hover span{
+    background: #5a796c;
+}
+
+/* COLORES DE LOS ICONOS */
+.card .header-card .options-icon .options .fa-edit{
+    color: var(--fa-edit);
+    font-weight: 500;
+}
+.card .header-card .options-icon .options .fa-bell{
+    color: #a34519;
+    font-weight: 500;
+ 
+}
+.card .header-card .options-icon .options .fa-star{
+    color: #DAA520;
+    font-weight: 500;
+}
+.card .header-card .options-icon .options .fa-trash-alt{
+    color: #e02d0d;
+    font-weight: 500;
+}
+
+.card .header-card .options-icon .options i.active{
+    font-weight: bold;
+}
+
+.options i,
+.card .header-card .options-icon .options i:hover{
+    font-weight: 600;
+    cursor: pointer;
+}
+
+/* CONTENIDO MENSAJES */
+.group-cards .card .content-message-services{
+    height: 60px;
+    padding: 0 11px;
+    width: 100%;
+    overflow: hidden;
+    overflow-y: auto;
+    margin-bottom: 2px;
+    /* border: 1px solid red; */
+}
+.group-cards .card .content-message-services p{
+    width: 100%;
+    font-family: 'Poppins', sans-serif;
+    font-size: 15px;
+    font-weight: 300;
+    text-align: justify;
+    word-spacing: unset;
+    line-height: 1.5em;
+    color: var(--descripcion-card);
+}
+.group-cards .card .content-message-services p::selection{
+    background: #33949c;
+    color: #fff;
+}
+
+/* Grupo botones */
+.group-btn{
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0px 11px;
+    margin: auto;
+    /* border: 1px solid red; */
+}
+.group-cards .card .group-btn .btn{
+    font-family: Arial, Helvetica, sans-serif;
+    font-weight: 500;
+    text-decoration: none;
+    text-align: center;
+    border-radius: 4px;
+    padding: 5px 12px; 
+}
+
+.group-btn .btn-cancel{
+    width: 55%;
+    background: var(--bg-cards);
+    color: rgb(80, 77, 77);
+    border: 1px solid rgb(93, 91, 99);
+    box-shadow: 0 0 2px #6a6a6a;
+}
+.group-btn .btn-cancel:hover{
+    color: var(--fg-btn-cancelar);
+    background: var(--bg-btn-cancelar);
+}
+.group-btn .btn-modify{
+    width: 40%;
+    background: var(--bg-cards);
+    color: rgb(16, 107, 129);
+    border: 1px solid rgb(31, 115, 136);
+    box-shadow: 0 0 2px #29627c;
+}
+.group-btn .btn-modify:hover{
+    background: var(--bg-btn-modificar);
+    color: rgb(195, 216, 204);
+}
+.group-btn .btn-subscribe{
+    width: 100%;
+    background: var(--bg-cards);
+    color: var(--fg-btn-active);
+    border: 1px solid var(--border-active);
+    box-shadow: 0 0 2px var(--bx-shadow-active);
+}
+.group-btn .btn-subscribe:hover{
+    background: var(--bg-btn-active);
+    color: rgb(211, 211, 226);
+}
+
+/* IMG ACTUALIZAR, SABADO 23 OCTUBRE 2021 */
+.btn-update-img{
+    position: absolute;
+    top: 120px;
+    left: 4px;
+    width: 40px;
+    margin-left: 0px;
+}
+.btn-update-img i{
+    color: var(--btn-update-i);
+    font-size: 22px;
+    font-weight: 600;
+}
+
+.btn-update-img:hover{
+    background-color: var(--bg-btn-update);
+    padding: 1px;
+    border-radius: 3px;
+    justify-content: center;
+}
+.btn-update-img i:hover{
+    /* color: #bbc6ce; */
+    font-size: 22px;
+    font-weight: 600;
+}
+
+/* #asignar{
+    margin-right: 170px;
+    margin-top: 13px;
+}
+
+#eliminarUsuario{
+    margin-right: 170px;
+    margin-top: 13px;
+} */
+
+/* Atributo titulo */
+/* .options i[title]:hover:after,
+.btn-update-img i[title]:hover:after {
+    content: attr(title);
+    position: absolute;
+    padding: 7px;
+    border-radius: 3px;
+    border: 1px solid #0e273b;
+    font-size: 17px;
+    top: 110px;
+    left: auto;
+    right: 10px;
+    z-index: 5;
+    background: #94c5b1;
+    color: #000;
+    width: 150px;
+} */
+
+
+@media screen and (max-width:486px) {
+    .group-cards{
+        padding: 10px;
+    }
+
+    .group-cards .card .header-card h4{
+        font-size: 16px;
+        text-align: left;
+        line-height: 17px;
+    }
+
+    /* CONTENIDO MENSAJES */
+    .group-cards .card .content-message-services{
+        height: 70px;
+        padding: 0 11px;
+        width: 100%;
+        margin-bottom: 5px;
+        /* border: 1px solid rgb(16, 107, 129); */
+    }
+    .group-cards .card .content-message-services p{
+        font-family: 'Poppins', sans-serif;
+        font-size: 15px;
+        font-weight: 400;
+        text-align: left;
+        line-height: 1.5em;
+    }
+    .group-cards .card .group-btn{
+        /* border: 1px solid rgb(16, 107, 129); */
+        margin: 0px;
+    }
+    .group-cards .card .group-btn .btn{
+        font-family: Helvetica, sans-serif;
+        font-size: 14px;
+        padding: 5px 4px; 
+    }
+    .group-btn .btn-cancel{
+        width: 60%;
+    }
+    .group-btn .btn-modify{
+        width: 35%;
+    }
+}
+
+
+/* Modal img */
+/* SABADO 23 OCTUBRE 2021 */
+.imagen-responsivo{
+    width: 100%;
+    height: 250px;
+    border: 1px solid rgba(40, 24, 112, 0.2);
+    box-sizing: border-box;
+    image-rendering: optimizeSpeed;
+    background-position: center;
+    background-size: cover;
+    background-repeat: no-repeat;
+}
+
+/* ESTILOS DEL ATTRIBUTO TILTLE */
+[data-title]:hover:after {
+    opacity: 0.9;
+    transition: all 0.1s ease 0.5s;
+    visibility: visible;
+}
+[data-title]:after {
+    content: attr(data-title);
+    background-color: var(--bg-title);
+    color: rgb(202, 202, 202);
+    font-size: 100%;
+    position: absolute;
+    line-height: 1em;
+    padding: 5px 5px;
+    bottom: 30px;
+    top: auto;
+    left: auto;
+    right: 0px;
+    white-space: nowrap;
+    box-shadow: 1px 1px 3px #222222;
+    opacity: 0;
+    border: 1px solid #35718d;
+    /* border-width: 0px 0 2px; */
+    border-radius: 5px;
+    z-index: 99999;
+    padding: 5px;
+    visibility: hidden;
+}
+[data-title] {
+    position: relative;
+}
