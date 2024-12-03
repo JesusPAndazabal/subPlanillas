@@ -50,8 +50,8 @@ CREATE TABLE periodos
 CREATE TABLE establecimientos
 (
 	idestablecimiento 	INT AUTO_INCREMENT PRIMARY KEY,
-	nombre			VARCHAR(100)NULL,
-	numero 			INT NULL
+	nombre			VARCHAR(100)NULL
+	-- numero 			INT NULL
 )ENGINE=INNODB;
 
 CREATE TABLE entidades
@@ -68,13 +68,13 @@ CREATE TABLE entidades
 CREATE TABLE regimenLaborales
 (
 	idregimenLaboral	INT AUTO_INCREMENT PRIMARY KEY,
-	descripcion		VARCHAR(200)
+	descripcion		VARCHAR(200) NULL
 )ENGINE=INNODB;
 
 CREATE TABLE cargos
 (
 	idcargo			INT AUTO_INCREMENT PRIMARY KEY,
-	descripcion		VARCHAR(200)
+	descripcion		VARCHAR(200) NULL
 )ENGINE=INNODB;
 
 CREATE TABLE campos

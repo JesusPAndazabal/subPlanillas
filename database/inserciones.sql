@@ -9,3 +9,9 @@ UPDATE usuarios
 	
 SELECT * FROM usuarios
 SELECT * FROM personas
+SELECT * FROM establecimientos
+SELECT * FROM regimenLaborales
+SELECT * FROM cargos
+SELECT * FROM campos
+
+DELETE FROM  personas;
