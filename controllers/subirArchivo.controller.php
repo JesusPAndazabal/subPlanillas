@@ -88,10 +88,20 @@ if ($_POST['op'] == 'importarArchivo') {
             if (preg_match('/Cta\. TeleAhorro o Nro\. Cheque:\s*(.*)/i', $boleta, $matches)) {
                 $persona['numCuenta'] = trim($matches[1]);
             }
-            if (preg_match('/Reg\.Pensionario.*?AFP\s*([^\/]+)\/(\S+)/i', $boleta, $matches)) {
-                $persona['regPensionario'] = trim($matches[1]);
-                $persona['cussp'] = trim($matches[2]);
+
+            // Extraer el régimen pensionario
+            if (preg_match('/Reg(\.|imen)?\s*Pensionario\s*[:\s]*(AFP\s[^\n]+|Ley\s\d+)/i', $boleta, $matches)) {
+                $persona['regPensionario'] = trim($matches[2] ?? $matches[1]);
             }
+
+            // Extraer el CUSSP si es un AFP
+            if (stripos($persona['regPensionario'], 'AFP') !== false) {
+                if (preg_match('/FAfiliacion\s*:\s*(\d{2}\/\d{2}\/\d{4})/', $boleta, $cusspMatch)) {
+                    $persona['cussp'] = trim($cusspMatch[1]);
+                }
+            }
+                        
+
             if (preg_match('/FAfiliacion\s*[:\s]*(\d{2}\/\d{2}\/\d{4})/i', $boleta, $matches)) {
                 $persona['fechaAfiliacion'] = trim($matches[1]);
             }

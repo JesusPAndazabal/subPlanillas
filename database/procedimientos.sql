@@ -19,6 +19,50 @@ BEGIN
 	FROM usuarios WHERE nomuser = _nomuser AND estado = '1';
 END $$
 
+-- Registrar usuarios
+DELIMITER $$
+CREATE PROCEDURE spu_registrar_usuario
+(
+	IN _nomuser 		VARCHAR(30),
+	IN _correo		VARCHAR(200),
+	IN _telefono		CHAR(11),
+	IN _nivelacceso		CHAR(1)
+)
+BEGIN 
+	INSERT INTO usuarios (nomuser , correo , telefono , nivelacceso ,claveacceso)
+		VALUES ( _nomuser , _correo , _telefono , _nivelacceso , '$2y$10$J7gowuuVf0ofrzV.eP.hEO9vexj7ccfi.I.wqf7i7u1HTpSroGqrC');
+END $$
+
+DELIMITER $$
+CREATE PROCEDURE spu_buscarUsuarios
+(
+	IN _search 	VARCHAR(50)
+)
+BEGIN
+	SELECT * FROM usuarios
+		WHERE nomuser LIKE CONCAT('%', _search ,'%');
+END $$
+
+DELIMITER $$
+CREATE PROCEDURE spu_buscarUsuariosRol
+(
+	IN _nivelacceso CHAR(1),
+	IN _search 	VARCHAR(50)
+)
+BEGIN
+	SELECT * FROM usuarios
+		WHERE nivelacceso = _nivelacceso AND nomuser LIKE CONCAT('%', _search ,'%');
+END $$
+
+
+DELIMITER $$
+CREATE PROCEDURE spu_buscardni_persona ( IN _numeroDoc CHAR(11))
+BEGIN 
+	SELECT * FROM personas 
+		WHERE numeroDoc = _numeroDoc;
+END $$
+
+
 
 -- Procedimiento para crear un periodo 
 DELIMITER $$
@@ -47,5 +91,11 @@ BEGIN
 
 END $$
 
+DELIMITER $$
+CREATE PROCEDURE spu_buscarDniPlanilla(IN _numeroDoc VARCHAR(11))
+BEGIN 
+	SELECT *
+	FROM vs_boletasConsultas WHERE numeroDoc = _numeroDoc;
+END $$
 
 

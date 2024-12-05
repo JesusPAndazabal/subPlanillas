@@ -26,7 +26,7 @@ CREATE TABLE personas
 	distrito 	VARCHAR(200) NULL,
 	direccion	VARCHAR(200) NULL,
 	telefono	CHAR(11)NULL,
-	correo		VARCHAR(200) NULL,
+	correo		VARCHAR(200) NULL, -- quitar este campo
 	ruc		CHAR(11) NULL,
 	numCuenta 	INT NULL,
 	regPensionario	VARCHAR(100) NULL,

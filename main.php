@@ -211,15 +211,126 @@ if ($_SESSION['acceso'] == false){
 
               <li class='nav-header'>PLANILLAS</li>
 
+              <?php
+                  if($_SESSION['nivelacceso'] == "Administrador" ){
+                      echo "
+                        <li class='nav-item'>
+                          <a href='main.php?view=subirArchivo-vista' class='nav-link btn-profile-index' style='color:white'>
+                          <i class='nav-icon fas fa-file-archive'></i>
+                            <p>
+                              IMPORTAR BOLETA
+                            </p>
+                          </a>                  
+                        </li>
+                      ";
+                  }
+                ?>  
+
+              
+
+              <?php
+                  if($_SESSION['nivelacceso'] == "Consultas" ){
+                      echo "
+                        <li class='nav-item'>
+                          <a href='main.php?view=consulta-vista  ' class='nav-link btn-profile-index' style='color:white'>
+                          <i class='nav-icon fas fa-file-archive'></i>
+                            <p>
+                              Consultar Boletas
+                            </p>
+                          </a>                  
+                        </li>
+                      ";
+                  }
+              ?> 
+
+              <?php
+                  if($_SESSION['nivelacceso'] == "Administrador" ){
+                      echo "
+                        <li class='nav-header'>MENU</li>
+              
               <li class='nav-item'>
-                <a href='main.php?view=subirArchivo-vista' class='nav-link btn-profile-index' style='color:white'>
+                <a href='main.php?view=personas-vista' class='nav-link btn-profile-index' style='color:white'>
                 <i class='nav-icon fas fa-file-archive'></i>
                   <p>
-                    Cargar archivo
+                      PERSONAL
                   </p>
                 </a>                  
               </li>
 
+              <li class='nav-item'>
+                <a href='main.php?view=periodos-vista' class='nav-link btn-profile-index' style='color:white'>
+                <i class='nav-icon fas fa-file-archive'></i>
+                  <p>
+                      PERIODOS
+                  </p>
+                </a>                  
+              </li>
+
+              <li class='nav-item'>
+                <a href='main.php?view=establecimientos-vista' class='nav-link btn-profile-index' style='color:white'>
+                <i class='nav-icon fas fa-file-archive'></i>
+                  <p>
+                      ESTABLECIMIENTOS
+                  </p>
+                </a>                  
+              </li>
+
+              <li class='nav-item'>
+                <a href='main.php?view=regimenesLaborales-vista' class='nav-link btn-profile-index' style='color:white'>
+                <i class='nav-icon fas fa-file-archive'></i>
+                  <p>
+                      REGIMENES LABO.
+                  </p>
+                </a>                  
+              </li>
+
+              <li class='nav-item'>
+                <a href='main.php?view=cargos-vista' class='nav-link btn-profile-index' style='color:white'>
+                <i class='nav-icon fas fa-file-archive'></i>
+                  <p>
+                      CARGOS
+                  </p>
+                </a>                  
+              </li>
+
+              <li class='nav-item'>
+                <a href='main.php?view=campos-vista' class='nav-link btn-profile-index' style='color:white'>
+                <i class='nav-icon fas fa-file-archive'></i>
+                  <p>
+                      CAMPOS
+                  </p>
+                </a>                  
+              </li>
+
+              <li class='nav-item'>
+                <a href='main.php?view=conceptos-vista' class='nav-link btn-profile-index' style='color:white'>
+                <i class='nav-icon fas fa-file-archive'></i>
+                  <p>
+                      CONCEPTOS
+                  </p>
+                </a>                  
+              </li>
+                      ";
+                  }
+                ?>  
+
+              
+
+              <?php
+                if($_SESSION['nivelacceso'] == "Administrador" ){
+                    echo "
+                      <li class='nav-header'>ACCESOS</li>
+                      <li class='nav-item'>
+                        <a href='main.php?view=usuarios-vsta' class='nav-link btn-profile-index' style='color:white'>
+                        <i class='nav-icon fas fa-file-archive'></i>
+                          <p>
+                            USUARIOS
+                          </p>
+                        </a>                  
+                      </li>
+                    ";
+                }
+              ?>  
           
                 
               

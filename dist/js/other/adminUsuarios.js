@@ -5,6 +5,7 @@ var cadena2 = "";
 var claveGenerada;
 let fecha = new Date();
 let añoActual = fecha.getFullYear();
+var nombrePersona = "";
 
 var datosControlador = {
     op : 'listarUsuarios',
@@ -74,27 +75,23 @@ function registrarUsuario(){
     
     var formData = new FormData();
 
-    let apellidosuser   = $("#apellidosuser").val();
-    let nombresuser     = $("#nombresuser").val();
+    let nomuser         = $("#nomuser").val();
     let correo          = $("#correo").val();
-    let numerodni       = $("#numerodni").val();
-    let nivelacceso     = $("#nivelacceso").val();
     let telefono        = $("#telefono").val();
+    let nivelacceso     = $("#nivelacceso").val();
 
 
-    if(apellidosuser == '' || nombresuser == '' || numerodni == '' || correo == ""){
+
+    if(nomuser == '' || nivelacceso == '' || correo == ""){
         alertWarning('Complete los datos solicitados');
     }else{  
             sweetAlertConfirmQuestionSave("¿Está seguro de registrar este usuario?").then((confirm) => {
                 if(confirm.isConfirmed){
                     formData.append("op", "registrarUsuario");
-                    formData.append("apellidosuser", apellidosuser);
-                    formData.append("nombresuser", nombresuser);
-                    formData.append("nomuser", numerodni);
+                    formData.append("nomuser", nomuser);
                     formData.append("correo", correo);
-                    formData.append("numerodni" , numerodni);
-                    formData.append("nivelacceso", nivelacceso);
                     formData.append("telefono", telefono);
+                    formData.append("nivelacceso", nivelacceso);
 
                     $.ajax({
                         url: 'controllers/usuario.controller.php',
@@ -104,12 +101,10 @@ function registrarUsuario(){
                         processData: false,
                         cache: false,
                         success: function(e){
+                            console.log(e);
                             alertSuccess('Usuario registrado');
                             $("#modal-cargaCorreo").modal('show');
                             enviarCorreo();
-                            $("#apellidosuser").val('');
-                            $("#nombresuser").val('');
-                            $("#numerodni").val('');
                             $("#correo").val('');
                             $("#telefono").val('');
 
@@ -126,18 +121,15 @@ function registrarUsuario(){
 
 //Funcion para en envio del correo
 function enviarCorreo(){
-    let correo          = $("#correo").val();
-    let numerodni       = $("#numerodni").val();
-    let apellidosuser   = $("#apellidosuser").val();
-    let nombresuser     = $("#nombresuser").val();
 
-    let usuario =  apellidosuser + ' '  + nombresuser;
+    let correo          = $("#correo").val();
+    let numerodni       = $("#nomuser").val();
 
     var datos = {
         'op'        : 'enviarCorreo',
         'email'     : correo,
         'numerodni' : numerodni,
-        'usuario'   : usuario
+        'usuario'   : nombrePersona
     };
 
     $.ajax({
@@ -149,7 +141,6 @@ function enviarCorreo(){
             $("#modal-cargaCorreo").modal('hide');
         }
     });
-    
     
 }
 
@@ -341,23 +332,23 @@ function obtenerUsuarios(){
 }
 
 //Funcion para buscar el dni del empleado
-function buscardniEmpleado(){
+function buscardniPersona(){
 
-    var codigodni = $("#dniEmpleadoBuscar").val(); 
-    console.log("dni" , codigodni);
+    var numeroDoc = $("#dniEmpleadoBuscar").val(); 
+    console.log("dni" , numeroDoc);
 
     $.ajax({
-        url: 'controllers/empleado.controller.php',
+        url: 'controllers/personas.controller.php',
         type: 'GET',
         dataType: 'JSON',
-        data: { op: 'buscardniEmpleado', codigodni: codigodni }, 
+        data: { op: 'buscardniPersona', numeroDoc : numeroDoc }, 
         success: function (datos) {
             $("#modalbuscarEmpleado").modal('hide');
             console.log(datos);
-            $("#apellidosuser").val(datos[0].apellidos);
-            $("#nombresuser").val(datos[0].nombres);
-            $("#numerodni").val(datos[0].codigodni);
+            $("#nomuser").val(datos[0].numeroDoc);
             $("#telefono").val(datos[0].telefono);
+            nombrePersona = datos[0].nombres;
+
         },
         error: function (xhr, status, error) {
             alertError("El numero de documento es incorrecto");
@@ -415,7 +406,7 @@ $("#acceder").click(iniciarSesion);
 //Boton para buscar el dni del empleado
 $("#btnCargarEmpleado").click(function(){
     console.log("CLICK DEL BOTO");
-    buscardniEmpleado();
+    buscardniPersona();
     
 });
 
@@ -452,8 +443,6 @@ $("#actualizarClave").click(actualizarClave);
 
 //Evento para el boton de registrar Usuario
 $("#registrarUsuario").click(function(){
-    validarCorreo();
-    validarDni();
     registrarUsuario();
 });
 

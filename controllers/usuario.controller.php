@@ -241,6 +241,18 @@ if(isset($_POST['op'])){
         $usuario->actualizarUsuario($datosEnviar);
     }
 
+    if($_POST['op'] == 'registrarUsuario'){
+
+        $datosEnviar = [
+            "nomuser"       => $_POST['nomuser'],
+            "correo"        => $_POST['correo'],
+            "telefono"      => $_POST['telefono'],
+            "nivelacceso"   => $_POST['nivelacceso']
+        ];
+
+        $usuario->registrarUsuario($datosEnviar);
+    }
+
 }
   
 ?>

@@ -59,7 +59,7 @@ class Usuario extends ModelMaster{
 
     public function registrarUsuario(array $data){
         try{
-            return parent::execProcedure($data ,"spu_registrar_usuarios", true);
+            return parent::execProcedure($data ,"spu_registrar_usuario", true);
         }catch(Exception $error){
             die($error->getMessage());
         }
