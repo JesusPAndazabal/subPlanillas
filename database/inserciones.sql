@@ -13,5 +13,20 @@ SELECT * FROM establecimientos
 SELECT * FROM regimenLaborales
 SELECT * FROM cargos
 SELECT * FROM campos
+SELECT * FROM periodos
+SELECT * FROM boletas
+SELECT * FROM conceptos
+
+SELECT * FROM personas WHERE nombres LIKE ('%AMPARO DONATILA%')
+
+SELECT * FROM boletas
+WHERE idregimenLaboral IS NULL
+   OR idcargo IS NULL
+   OR idestablecimiento IS NULL;
+
+SELECT * FROM boletas WHERE idpersona = 193	
+202
+1072
+1762
 
 DELETE FROM  personas;

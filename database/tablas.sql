@@ -39,12 +39,13 @@ CREATE TABLE personas
 CREATE TABLE periodos
 (
 	idperiodo 	INT AUTO_INCREMENT PRIMARY KEY,
-	tipo		CHAR(1) NULL,
+	tipo		VARCHAR(100) NULL,
 	mes		INT NULL,
 	anio		CHAR(4) NULL,
-	fechaInicio	DATE,
-	fechaTermino	DATE,
-	numero 		INT NULL
+	fechaInicio	DATE NULL, -- autogenerado - 01
+	fechaTermino	DATE NULL, --  1 mes - 31
+	numero 		INT NULL, -- numero de boleta- 
+	formaPago	CHAR(1) NULL -- CHQ O CIA - CHEQUE O TELEAHORRO/NRO DE CUENTA
 )ENGINE= INNODB;
 
 CREATE TABLE establecimientos
@@ -99,7 +100,11 @@ CREATE TABLE boletas
 	fechaTermino		DATE NULL,
 	leyendaPermanente	VARCHAR(100) NULL,
 	leyendaMensual		VARCHAR(100) NULL,
-	escala 			VARCHAR(100) NULL,
+	escala 			VARCHAR(100) NULL, -- Escala Magistral
+	cuenta			VARCHAR(100) NULL,
+	totalRemuneracion	DOUBLE(8,2) NULL,
+	totalDescuento		DOUBLE(8,2) NULL,
+	totalLiquido		DOUBLE(8,2) NULL,
 	montoImponible		DOUBLE(8,2) NULL,
 	
 	CONSTRAINT fk_boletas_personas FOREIGN KEY (idpersona) REFERENCES personas(idpersona),
@@ -114,7 +119,7 @@ CREATE TABLE boletas
 	 idconcepto	INT AUTO_INCREMENT PRIMARY KEY,
 	 idboleta	INT NOT NULL,
 	 idcampo	INT NOT NULL,
-	 monto		DOUBLE(8,3) NULL,
+	 monto		DOUBLE(8,2) NULL,
 	 estado		CHAR(1) NOT NULL DEFAULT '1',
 
 	 CONSTRAINT fk_concep_idcamp   FOREIGN KEY (idcampo) REFERENCES campos(idcampo),
