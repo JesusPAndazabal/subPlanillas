@@ -1,18 +1,5 @@
 
 DELIMITER $$
-CREATE PROCEDURE spu_registrar_usuario
-(
-	IN _nomuser 		VARCHAR(30),
-	IN _correo		VARCHAR(200),
-	IN _telefono		CHAR(11),
-	IN _nivelacceso		CHAR(1)
-)
-BEGIN 
-	INSERT INTO usuarios (nomuser , correo , telefono , nivelacceso ,claveacceso)
-		VALUES ( _nomuser , _correo , _telefono , _nivelacceso , '$2y$10$J7gowuuVf0ofrzV.eP.hEO9vexj7ccfi.I.wqf7i7u1HTpSroGqrC');
-END $$
-
-DELIMITER $$
 CREATE PROCEDURE spu_usuarios_login(IN _nomuser VARCHAR(30))
 BEGIN
 	SELECT *
@@ -99,17 +86,17 @@ BEGIN
 END $$
 
 -- Procedimientos para las boletas - Para obtener un registro para el reporte
-delimiter $$
-create procedure spu_obtener_boleta(in _idboleta int)
-begin 
-	select * from vs_boletasConsultas
-		where idboleta = _idboleta;
-end $$
+DELIMITER $$
+CREATE PROCEDURE spu_obtener_boleta(IN _idboleta INT)
+BEGIN 
+	SELECT * FROM vs_boletasConsultas
+		WHERE idboleta = _idboleta;
+END $$
 
 -- Procedimiento para poder obtener los conceptos de una boleta
-delimiter $$
-create procedure spu_obtener_concepto(in _idboleta int)
-begin 
-	select * from vs_conceptos
-		where idboleta = _idboleta;
-end $$
+DELIMITER $$
+CREATE PROCEDURE spu_obtener_concepto(IN _idboleta INT)
+BEGIN 
+	SELECT * FROM vs_conceptos
+		WHERE idboleta = _idboleta;
+END $$

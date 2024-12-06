@@ -38,4 +38,11 @@ function listarBoletasConsulta(numeroDocBoleta) {
     });
 }
 
+$("#tabla-consulta").on("click", ".reporte", function () {
+    let idboleta = $(this).attr("data-idboleta");
+    console.log("click en el reporte", idboleta);
+    window.open("reports/reporte.php?idboleta=" + idboleta);
+});
+
+
 listarBoletasConsulta(numeroDocBoleta);

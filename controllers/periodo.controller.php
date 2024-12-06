@@ -1,6 +1,22 @@
 <?php
 
+session_start();
+
 require_once '../models/Periodo.php';
+require_once '../models/Serverside.php';
+
+if(isset($_GET['op'])){
+
+    $periodo = new Periodo();
+
+    if($_GET['op'] == 'listarPeriodos'){
+        $data = $serverSide->get("vs_periodos", "idperiodo", array("idperiodo", "tipo", "mes" , "anio" ,"fechaInicio", "fechaTermino"));
+    } 
+    
+}
+
+
+
 
 if (isset($_POST['op'])) {
     $periodo = new Periodo();
