@@ -98,4 +98,18 @@ BEGIN
 	FROM vs_boletasConsultas WHERE numeroDoc = _numeroDoc;
 END $$
 
+-- Procedimientos para las boletas - Para obtener un registro para el reporte
+delimiter $$
+create procedure spu_obtener_boleta(in _idboleta int)
+begin 
+	select * from vs_boletasConsultas
+		where idboleta = _idboleta;
+end $$
 
+-- Procedimiento para poder obtener los conceptos de una boleta
+delimiter $$
+create procedure spu_obtener_concepto(in _idboleta int)
+begin 
+	select * from vs_conceptos
+		where idboleta = _idboleta;
+end $$

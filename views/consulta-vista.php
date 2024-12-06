@@ -5,7 +5,7 @@
 <table class="table table-valign-middle table-striped text-center" id="tabla-consulta">
             <thead>
                 <tr>
-                    <th>N° Orden</th>
+                    <th>N°</th>
                     <th>Apellidos</th>
                     <th>Nombres</th>
                     <th>N° Documento</th>
