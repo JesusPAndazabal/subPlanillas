@@ -106,12 +106,23 @@ CREATE TABLE boletas
 	totalDescuento		DOUBLE(8,2) NULL,
 	totalLiquido		DOUBLE(8,2) NULL,
 	montoImponible		DOUBLE(8,2) NULL,
+	archivo_hash		VARCHAR(64) NULL,
 	
 	CONSTRAINT fk_boletas_personas FOREIGN KEY (idpersona) REFERENCES personas(idpersona),
 	CONSTRAINT fk_boletas_cargos FOREIGN KEY (idcargo) REFERENCES cargos(idcargo),
 	CONSTRAINT fk_boletas_establecimiento FOREIGN KEY (idestablecimiento) REFERENCES establecimientos(idestablecimiento),
 	CONSTRAINT fk_boletas_regimenLaboral FOREIGN KEY (idregimenLaboral) REFERENCES regimenLaborales(idregimenLaboral),
 	CONSTRAINT fk_boletas_periodos FOREIGN KEY (idperiodo) REFERENCES periodos(idperiodo)
+)ENGINE=INNODB;
+
+CREATE TABLE archivos
+(
+	idarchivo 	INT AUTO_INCREMENT PRIMARY KEY,
+	idboleta 	INT NULL,
+	codigoBoleta	VARCHAR(100) NULL,
+	
+	CONSTRAINT fk_idboleta FOREIGN KEY (idboleta) REFERENCES boletas (idboleta),
+	CONSTRAINT uk_codigoBoleta UNIQUE (codigoBoleta)
 )ENGINE=INNODB;
 
  CREATE TABLE conceptos

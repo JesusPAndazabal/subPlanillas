@@ -22,13 +22,11 @@ FROM periodos;
 -- ESTABLECIMIENTOS
 CREATE VIEW vs_establecimientos AS
 SELECT * 
-FROM establecimientos
+FROM establecimientos;
 
 -- REGIMENES LABORALES
 CREATE VIEW vs_regimenLaborales AS 
 SELECT * FROM regimenLaborales;
-
-SELECT * FROM vs_regimenLaborales
 
 
 CREATE VIEW vs_boletasConsultas AS

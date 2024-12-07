@@ -25,7 +25,10 @@ if ($_POST['op'] == 'importarArchivo') {
         $periodo_id = $_POST['periodo_id'];
         $archivo = $_FILES['archivoLis']['tmp_name'];
 
+        $archivo_hash = hash_file('sha256', $archivo);  
+
         $contenido = file_get_contents($archivo);
+
 
         // Usamos el patrón para identificar las boletas
         $boletas = preg_split('/(DRE\. HUANCAVELICA|GOBIERNO REGIONAL HUANCAVELICA|DIRECCION REGIONAL DE EDUCACIO|DIRECCION REGIONAL DE EDUCACION)/', $contenido);
@@ -158,6 +161,64 @@ if ($_POST['op'] == 'importarArchivo') {
             if (preg_match('/MImponible\s+([\d,.]+)/i', $boleta, $matches)) {
                 $persona['montoImponible'] = str_replace(',', '', $matches[1]);
             }
+
+            // Extraer Leyenda Permanente
+            if (preg_match('/Leyenda Permanente\s*[:|-]\s*(.*?)(?=\s*Leyenda Mensual|\s*$)/i', $boleta, $matches)) {
+                $leyendaPermanente = trim($matches[1]);
+
+                // Si la leyenda está vacía o contiene solo espacios, asignar null
+                if (empty($leyendaPermanente)) {
+                    $persona['leyendaPermanente'] = null;
+                } else {
+                    $persona['leyendaPermanente'] = $leyendaPermanente;
+                }
+            } else {
+                $persona['leyendaPermanente'] = null; // Si no se encuentra, dejar vacío
+            }
+
+            // Extraer Leyenda Mensual
+            if (preg_match('/Leyenda Mensual\s*[:|-]\s*(.*?)(?=\s*Reg.Pensionario|\s*$)/i', $boleta, $matches)) {
+                $leyendaMensual = trim($matches[1]);
+
+                // Si la leyenda está vacía o contiene solo espacios, asignar null
+                if (empty($leyendaMensual)) {
+                    $persona['leyendaMensual'] = null;
+                } elseif (ctype_digit($leyendaMensual)) {
+                    // Si es numérico, procesar como boleta adicional o fecha
+                    $anio = substr($leyendaMensual, 0, 4); // Primeros 4 dígitos: Año
+                    $mes = intval(substr($leyendaMensual, 4)); // Restantes: Mes o indicador adicional
+
+                    if ($mes > 12) {
+                        // Calcular el mes real (restamos 20)
+                        $mesReal = $mes - 20;
+
+                        // Calcular el número de adicional (por cada 20 sumados al mes original)
+                        $adicional = floor(($mes - 13) / 20) + 1; // El número de adicional
+
+                        // Convertir el número de mes real a nombre del mes
+                        $meses = ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'];
+                        $mesRealNombre = $meses[$mesReal - 1];  // El índice del mes comienza desde 0
+
+                        // Asignamos la leyenda
+                        $persona['leyendaMensual'] = "Año: $anio, Mes Real: $mesRealNombre (Adicional $adicional)";
+                    } else {
+                        // Si es un mes normal
+                        $meses = ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'];
+                        $mesNombre = $meses[$mes - 1];  // El índice del mes comienza desde 0
+
+                        $persona['leyendaMensual'] = "Año: $anio, Mes: $mesNombre";
+                    }
+                } else {
+                    // Si no es numérico, tomar el texto literal
+                    $persona['leyendaMensual'] = $leyendaMensual;
+                }
+            } else {
+                $persona['leyendaMensual'] = null; // Si no se encuentra, dejar vacío
+            }
+
+
+
+
 
         
             // 2. Insertar Establecimiento si no existe y Obtener idestablecimiento
@@ -344,7 +405,7 @@ if ($_POST['op'] == 'importarArchivo') {
                     $persona['totalRemuneracion'], // totalRemuneracion
                     $persona['totalDescuento'],  // totalDescuento
                     $persona['totalLiquido'],    // totalLiquido
-                    $persona['montoImponible']   // montoImponible
+                    $persona['montoImponible'] // montoImponible
                 );
 
                 if ($stmt_boleta->execute()) {
@@ -378,9 +439,24 @@ if ($_POST['op'] == 'importarArchivo') {
                 $stmt_conceptos->close(); // Aquí se cierra después de la inserción de todos los conceptos.
             }
 
-            // Cerrar la sentencia de la boleta solo después de haber insertado los conceptos
+             // Insertar el código y el idboleta en la tabla archivos
+            $sql_archivo = "INSERT INTO archivos (idboleta, codigoBoleta) VALUES (?, ?)";
+            if ($stmt_archivo = $conn->prepare($sql_archivo)) {
+                $stmt_archivo->bind_param('is', $persona['idboleta'], $archivo_hash); // 'is' para idboleta (int) y codigoBoleta (string)
+                if ($stmt_archivo->execute()) {
+                    // Registro exitoso en archivos
+                    echo "La boleta y archivo fueron registrados exitosamente.";
+                } else {
+                    error_log("Error al insertar en la tabla archivos: " . $stmt_archivo->error);
+                }
+                $stmt_archivo->close();
+            } else {
+                error_log("Error al preparar la consulta de archivos: " . $conn->error);
+            }
+
             $stmt_boleta->close(); // Ahora puedes cerrarla, porque ya no la necesitas
         }
+        
         // Confirmar la transacción si todo fue bien
         $conn->commit();
         echo json_encode(['success' => true, 'message' => "$registrosInsertados registros procesados correctamente."]);

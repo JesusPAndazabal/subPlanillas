@@ -17,7 +17,7 @@ SELECT * FROM periodos
 SELECT * FROM boletas
 SELECT * FROM conceptos
 
-SELECT * FROM personas WHERE nombres LIKE ('%AMPARO DONATILA%')
+SELECT * FROM personas WHERE nombres LIKE ('%ADA CLARIBEL%')
 
 SELECT * FROM boletas
 WHERE idregimenLaboral IS NULL
