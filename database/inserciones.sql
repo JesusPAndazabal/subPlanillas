@@ -16,8 +16,9 @@ SELECT * FROM campos
 SELECT * FROM periodos
 SELECT * FROM boletas
 SELECT * FROM conceptos
+SELECT * FROM archivos_subidos
 
-SELECT * FROM personas WHERE nombres LIKE ('%AMPARO DONATILA%')
+SELECT * FROM personas WHERE nombres LIKE ('%ADA CLARIBEL%')
 
 SELECT * FROM boletas
 WHERE idregimenLaboral IS NULL
@@ -25,6 +26,7 @@ WHERE idregimenLaboral IS NULL
    OR idestablecimiento IS NULL;
 
 SELECT * FROM boletas WHERE idpersona = 193	
+SELECT * FROM boletas WHERE idpersona = 828
 202
 1072
 1762

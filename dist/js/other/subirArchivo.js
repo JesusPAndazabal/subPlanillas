@@ -1,9 +1,10 @@
-function importarArchivo(periodo_id) {
+function importarArchivo(periodo_id, callback) {
     var formData = new FormData();
     var archivo = $("#archivoLis")[0].files[0];
 
     if (!archivo) {
         alertWarning('Debe seleccionar un archivo .lis para importar.');
+        callback(false);  // Si no hay archivo, llamamos el callback con false
         return;
     }
 
@@ -21,19 +22,22 @@ function importarArchivo(periodo_id) {
                 processData: false,
                 cache: false,
                 success: function(response) {
-                    console.log("RESponse", response);
                     let res = JSON.parse(response);
-                    console.log("RES.SUCCESS", res);
                     if (res.success) {
                         alertSuccess(res.message);
+                        callback(true);  // Llamamos el callback con `true` si la importación fue exitosa
                     } else {
                         alertError(res.message);
+                        callback(false); // Llamamos el callback con `false` si hay un error
                     }
                 },
                 error: function(xhr, status, error) {
                     alertError("Error al importar el archivo: " + error);
+                    callback(false); // Llamamos el callback con `false` en caso de error
                 }
             });
+        } else {
+            callback(false);  // Si el usuario cancela la importación
         }
     });
 }
@@ -50,6 +54,8 @@ function registrarPeriodo() {
         return;
     }
 
+    // Intentamos importar el archivo antes de registrar el periodo
+    var periodo_id = null;  // Para almacenar el ID del periodo que se registrará
     $.ajax({
         url: 'controllers/periodo.controller.php', // Controlador PHP
         type: 'POST',
@@ -62,12 +68,19 @@ function registrarPeriodo() {
             formaPago: formaPago
         },
         success: function(response) {
-            console.log("Registrar Periodo Response 1", response);
             let res = JSON.parse(response);
-            console.log("RESPONSE" , res);
             if (res.success) {
-                alertSuccess('Periodo registrado con éxito.' , res.periodo_id);
-                importarArchivo(res.periodo_id); // Llama a la función de importar después del registro
+                periodo_id = res.periodo_id;
+                alertSuccess('Periodo registrado con éxito.');
+                // Ahora que tenemos el ID del periodo, intentamos importar el archivo
+                importarArchivo(periodo_id, function(importSuccess) {
+                    console.log(importSuccess , "Importacion");
+                    if (!importSuccess) {
+                        // Si la importación falla, eliminamos el periodo
+                        eliminarPeriodo(periodo_id);
+                        alertError('El archivo no se pudo importar. El periodo ha sido eliminado.');
+                    }
+                });
             } else {
                 alertError(res.message);
             }
@@ -78,9 +91,30 @@ function registrarPeriodo() {
     });
 }
 
+// Esta función elimina el periodo si la importación falla
+function eliminarPeriodo(periodo_id) {
+    $.ajax({
+        url: 'controllers/subirArchivo.controller.php', // Controlador para eliminar periodo
+        type: 'POST',
+        data: {
+            op: 'eliminarPeriodo',
+            periodo_id: periodo_id
+        },
+        success: function(response) {
+            let res = JSON.parse(response);
+            if (res.success) {
+                //alertSuccess('Periodo eliminado correctamente.');
+            } else {
+                alertError('No se pudo eliminar el periodo.');
+            }
+        },
+        error: function(xhr, status, error) {
+            alertError("Error al eliminar el periodo: " + error);
+        }
+    });
+}
 
-//Evento para el boton de registrar Usuario
+// Evento para el boton de registrar Usuario
 $("#subirArchivo").click(function(){
-    console.log("click");
     registrarPeriodo();
 });

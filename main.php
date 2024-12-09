@@ -276,15 +276,6 @@ if ($_SESSION['acceso'] == false){
               </li>
 
               <li class='nav-item'>
-                <a href='main.php?view=regimenesLaborales-vista' class='nav-link btn-profile-index' style='color:white'>
-                <i class='nav-icon fas fa-file-archive'></i>
-                  <p>
-                      REGIMENES LABO.
-                  </p>
-                </a>                  
-              </li>
-
-              <li class='nav-item'>
                 <a href='main.php?view=cargos-vista' class='nav-link btn-profile-index' style='color:white'>
                 <i class='nav-icon fas fa-file-archive'></i>
                   <p>
@@ -293,23 +284,6 @@ if ($_SESSION['acceso'] == false){
                 </a>                  
               </li>
 
-              <li class='nav-item'>
-                <a href='main.php?view=campos-vista' class='nav-link btn-profile-index' style='color:white'>
-                <i class='nav-icon fas fa-file-archive'></i>
-                  <p>
-                      CAMPOS
-                  </p>
-                </a>                  
-              </li>
-
-              <li class='nav-item'>
-                <a href='main.php?view=conceptos-vista' class='nav-link btn-profile-index' style='color:white'>
-                <i class='nav-icon fas fa-file-archive'></i>
-                  <p>
-                      CONCEPTOS
-                  </p>
-                </a>                  
-              </li>
                       ";
                   }
                 ?>  

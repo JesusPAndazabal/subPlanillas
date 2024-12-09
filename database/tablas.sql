@@ -85,6 +85,13 @@ CREATE TABLE campos
 	 nombre		VARCHAR(60) NOT NULL
 )ENGINE=INNODB;
 
+CREATE TABLE archivos_subidos (
+    idarchivo INT AUTO_INCREMENT PRIMARY KEY,
+    nombre_archivo VARCHAR(255),
+    codigo_unico VARCHAR(64) -- Hash para verificar si el archivo ya fue subido
+);
+
+
 CREATE TABLE boletas
 (
 	idboleta		INT AUTO_INCREMENT PRIMARY KEY,
@@ -106,12 +113,14 @@ CREATE TABLE boletas
 	totalDescuento		DOUBLE(8,2) NULL,
 	totalLiquido		DOUBLE(8,2) NULL,
 	montoImponible		DOUBLE(8,2) NULL,
+	id_archivo		INT NULL, -- Campo para almacenar el id del archivo
 	
 	CONSTRAINT fk_boletas_personas FOREIGN KEY (idpersona) REFERENCES personas(idpersona),
 	CONSTRAINT fk_boletas_cargos FOREIGN KEY (idcargo) REFERENCES cargos(idcargo),
 	CONSTRAINT fk_boletas_establecimiento FOREIGN KEY (idestablecimiento) REFERENCES establecimientos(idestablecimiento),
 	CONSTRAINT fk_boletas_regimenLaboral FOREIGN KEY (idregimenLaboral) REFERENCES regimenLaborales(idregimenLaboral),
-	CONSTRAINT fk_boletas_periodos FOREIGN KEY (idperiodo) REFERENCES periodos(idperiodo)
+	CONSTRAINT fk_boletas_periodos FOREIGN KEY (idperiodo) REFERENCES periodos(idperiodo),
+	CONSTRAINT fk_boletas_archi FOREIGN KEY (id_archivo) REFERENCES archivos_subidos(idarchivo)
 )ENGINE=INNODB;
 
  CREATE TABLE conceptos
@@ -125,5 +134,7 @@ CREATE TABLE boletas
 	 CONSTRAINT fk_concep_idcamp   FOREIGN KEY (idcampo) REFERENCES campos(idcampo),
 	 CONSTRAINT fk_concep_idboleta FOREIGN KEY (idboleta) REFERENCES boletas(idboleta)
 )ENGINE=INNODB;
+
+
 
 
