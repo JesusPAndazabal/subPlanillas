@@ -123,26 +123,6 @@ CREATE TABLE boletas
 	CONSTRAINT fk_boletas_archi FOREIGN KEY (id_archivo) REFERENCES archivos_subidos(idarchivo)
 )ENGINE=INNODB;
 
-CREATE TABLE archivos
-(
-	idarchivo 	INT AUTO_INCREMENT PRIMARY KEY,
-	idboleta 	INT NULL,
-	codigoBoleta	VARCHAR(100) NULL,
-	
-	CONSTRAINT fk_idboleta FOREIGN KEY (idboleta) REFERENCES boletas (idboleta),
-	CONSTRAINT uk_codigoBoleta UNIQUE (codigoBoleta)
-)ENGINE=INNODB;
-
-CREATE TABLE archivos
-(
-	idarchivo 	INT AUTO_INCREMENT PRIMARY KEY,
-	idboleta 	INT NULL,
-	codigoBoleta	VARCHAR(100) NULL,
-	
-	CONSTRAINT fk_idboleta FOREIGN KEY (idboleta) REFERENCES boletas (idboleta),
-	CONSTRAINT uk_codigoBoleta UNIQUE (codigoBoleta)
-)ENGINE=INNODB;
-
  CREATE TABLE conceptos
 (
 	 idconcepto	INT AUTO_INCREMENT PRIMARY KEY,

@@ -28,6 +28,11 @@ FROM establecimientos;
 CREATE VIEW vs_regimenLaborales AS 
 SELECT * FROM regimenLaborales;
 
+-- CARGOS
+CREATE VIEW vs_cargos AS
+SELECT * FROM cargos;
+
+
 
 CREATE VIEW vs_boletasConsultas AS
 SELECT BOL.idboleta , PER.nombres , PER.apellidos , PER.numeroDoc , CARG.descripcion , EST.nombre , REG.descripcion  AS 'regimen', PERI.tipo , 

@@ -25,9 +25,49 @@ if ($_POST['op'] == 'importarArchivo') {
         $periodo_id = $_POST['periodo_id'];
         $archivo = $_FILES['archivoLis']['tmp_name'];
 
-        $archivo_hash = hash_file('sha256', $archivo);  
-
         $contenido = file_get_contents($archivo);
+        $codigo_unico = hash('sha256', $contenido);
+
+    
+        // Verificar si el archivo ya fue procesado
+        $sql_check_archivo = "SELECT idarchivo FROM archivos_subidos WHERE codigo_unico = ?";
+        if ($stmt_check = $conn->prepare($sql_check_archivo)) {
+            $stmt_check->bind_param('s', $codigo_unico);
+            $stmt_check->execute();
+            $stmt_check->store_result();
+
+            if ($stmt_check->num_rows > 0) {
+                echo json_encode(['success' => false, 'message' => 'El archivo ya fue procesado anteriormente.']);
+                $stmt_check->close();
+                $conn->close();
+                exit;
+            }
+            $stmt_check->close();
+        }
+
+        $sql_insert_archivo = "INSERT INTO archivos_subidos (nombre_archivo, codigo_unico) VALUES (?, ?)";
+        if ($stmt_insert_archivo = $conn->prepare($sql_insert_archivo)) {
+            $nombre_archivo = $_FILES['archivoLis']['name']; // Nombre del archivo subido
+            $idboleta = null; // No asignar idboleta en este momento, lo haremos más tarde.
+
+            // Depuración: Mostrar el nombre del archivo
+            error_log("Nombre del archivo: " . $nombre_archivo);
+        
+            $stmt_insert_archivo->bind_param('ss', $nombre_archivo, $codigo_unico);
+            if ($stmt_insert_archivo->execute()) {
+                $id_archivo = $stmt_insert_archivo->insert_id; // Obtener el id_archivo recién insertado
+                // Depuración: Mostrar el id del archivo insertado
+                error_log("ID del archivo insertado: " . $id_archivo);
+            } else {
+                error_log("Error al registrar archivo: " . $stmt_insert_archivo->error);
+                echo json_encode(['success' => false, 'message' => 'Error al registrar el archivo.']);
+                $stmt_insert_archivo->close();
+                $conn->close();
+                exit;
+            }
+            $stmt_insert_archivo->close();
+        }
+        
 
         // Usamos el patrón para identificar las boletas
         $boletas = preg_split('/(DRE\. HUANCAVELICA|GOBIERNO REGIONAL HUANCAVELICA|DIRECCION REGIONAL DE EDUCACIO|DIRECCION REGIONAL DE EDUCACION)/', $contenido);
@@ -150,19 +190,19 @@ if ($_POST['op'] == 'importarArchivo') {
                     $persona['cuenta'] = null;  // Si no se encuentra, asignar null
                 }
 
-            // Extraer los totales de la boleta
-            if (preg_match('/T-REMUN\s+([\d,.]+)/i', $boleta, $matches)) {
-                $persona['totalRemuneracion'] = str_replace(',', '', $matches[1]);
-            }
-            if (preg_match('/T-DSCTO\s+([\d,.]+)/i', $boleta, $matches)) {
-                $persona['totalDescuento'] = str_replace(',', '', $matches[1]);
-            }
-            if (preg_match('/T-LIQUI\s+([\d,.]+)/i', $boleta, $matches)) {
-                $persona['totalLiquido'] = str_replace(',', '', $matches[1]);
-            }
-            if (preg_match('/MImponible\s+([\d,.]+)/i', $boleta, $matches)) {
-                $persona['montoImponible'] = str_replace(',', '', $matches[1]);
-            }
+                // Extraer los totales de la boleta
+                if (preg_match('/T-REMUN\s+([\d,.]+)/i', $boleta, $matches)) {
+                    $persona['totalRemuneracion'] = str_replace(',', '', $matches[1]);
+                }
+                if (preg_match('/T-DSCTO\s+([\d,.]+)/i', $boleta, $matches)) {
+                    $persona['totalDescuento'] = str_replace(',', '', $matches[1]);
+                }
+                if (preg_match('/T-LIQUI\s+([\d,.]+)/i', $boleta, $matches)) {
+                    $persona['totalLiquido'] = str_replace(',', '', $matches[1]);
+                }
+                if (preg_match('/MImponible\s+([\d,.]+)/i', $boleta, $matches)) {
+                    $persona['montoImponible'] = str_replace(',', '', $matches[1]);
+                }
 
                 // Extraer Leyenda Permanente
             if (preg_match('/Leyenda Permanente\s*[:|-]\s*(.*?)(?=\s*Leyenda Mensual|\s*$)/i', $boleta, $matches)) {
@@ -376,35 +416,41 @@ if ($_POST['op'] == 'importarArchivo') {
                 }
 
 
-            // Insertar la boleta en la tabla boletas
-            $sql_boleta = "INSERT INTO boletas (
-                idpersona, idcargo, idestablecimiento, idregimenLaboral, idperiodo, dniJud, 
-                tiempoServi, essalud, fechaIngreso, fechaTermino, leyendaPermanente, 
-                leyendaMensual, escala, cuenta, totalRemuneracion, totalDescuento, 
-                totalLiquido, montoImponible
-            ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
-            if ($stmt_boleta = $conn->prepare($sql_boleta)) {
-                $stmt_boleta->bind_param(
-                    'iiiiisssssssssssss',
-                    $persona['idpersona'],      // idpersona
-                    $persona['idcargo'],         // idcargo
-                    $persona['idestablecimiento'], // idestablecimiento
-                    $persona['idregimenLaboral'], // idregimenLaboral
-                    $periodo_id                 , // idperiodo
-                    $persona['dniJud'],          // dniJud
-                    $persona['tiempoServi'],     // tiempoServi
-                    $persona['essalud'],         // essalud
-                    $persona['fechaIngreso'],    // fechaIngreso
-                    $persona['fechaTermino'],    // fechaTermino
-                    $persona['leyendaPermanente'], // leyendaPermanente
-                    $persona['leyendaMensual'],  // leyendaMensual
-                    $persona['escala'],          // escala
-                    $persona['cuenta'],          // cuenta
-                    $persona['totalRemuneracion'], // totalRemuneracion
-                    $persona['totalDescuento'],  // totalDescuento
-                    $persona['totalLiquido'],    // totalLiquido
-                    $persona['montoImponible']   // montoImponible
-                );
+                // Insertar la boleta en la tabla boletas
+                $sql_boleta = "INSERT INTO boletas (
+                    idpersona, idcargo, idestablecimiento, idregimenLaboral, idperiodo, dniJud, 
+                    tiempoServi, essalud, fechaIngreso, fechaTermino, leyendaPermanente, 
+                    leyendaMensual, escala, cuenta, totalRemuneracion, totalDescuento, 
+                    totalLiquido, montoImponible , id_archivo
+                ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ? , ?)";
+                if ($stmt_boleta = $conn->prepare($sql_boleta)) {
+                    $stmt_boleta->bind_param(
+                        'iiiiisssssssssssssi',
+                        $persona['idpersona'],      // idpersona
+                        $persona['idcargo'],         // idcargo
+                        $persona['idestablecimiento'], // idestablecimiento
+                        $persona['idregimenLaboral'], // idregimenLaboral
+                        $periodo_id                 , // idperiodo
+                        $persona['dniJud'],          // dniJud
+                        $persona['tiempoServi'],     // tiempoServi
+                        $persona['essalud'],         // essalud
+                        $persona['fechaIngreso'],    // fechaIngreso
+                        $persona['fechaTermino'],    // fechaTermino
+                        $persona['leyendaPermanente'], // leyendaPermanente
+                        $persona['leyendaMensual'],  // leyendaMensual
+                        $persona['escala'],          // escala
+                        $persona['cuenta'],          // cuenta
+                        $persona['totalRemuneracion'], // totalRemuneracion
+                        $persona['totalDescuento'],  // totalDescuento
+                        $persona['totalLiquido'],    // totalLiquido
+                        $persona['montoImponible'],  // montoImponible
+                        $id_archivo
+                    );
+
+                    // Verificar que el bind_param no haya fallado
+                    if ($stmt_boleta === false) {
+                        error_log("Error al vincular los parámetros en la sentencia SQL: " . $conn->error);
+                    }
 
                     if ($stmt_boleta->execute()) {
                         // Después de la ejecución, obtener el id de la boleta insertada
@@ -438,9 +484,9 @@ if ($_POST['op'] == 'importarArchivo') {
                     $stmt_conceptos->close(); // Aquí se cierra después de la inserción de todos los conceptos.
                 }
 
-            // Cerrar la sentencia de la boleta solo después de haber insertado los conceptos
-            $stmt_boleta->close(); // Ahora puedes cerrarla, porque ya no la necesitas
-        }
+                // Cerrar la sentencia de la boleta solo después de haber insertado los conceptos
+                $stmt_boleta->close(); // Ahora puedes cerrarla, porque ya no la necesitas
+            }
         // Confirmar la transacción si todo fue bien
         $conn->commit();
         echo json_encode(['success' => true, 'message' => "$registrosInsertados registros procesados correctamente."]);
