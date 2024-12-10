@@ -51,13 +51,18 @@ SELECT BOL.idboleta , PER.nombres , PER.apellidos , PER.numeroDoc , CARG.descrip
 			WHEN mes = '12' THEN 'Diciembre'
 	END 'mes' 
 , PERI.anio , PERI.numero , PERI.fechaInicio , PERI.fechaTermino AS 'terminoPeriodo' , PER.regPensionario,BOL.cuenta,BOL.tiempoServi,BOL.fechaIngreso,BOL.fechatermino,BOL.totalRemuneracion,BOL.totalDescuento,BOL.totalLiquido,montoImponible,PER.cussp,
-BOL.leyendaMensual , BOL.leyendaPermanente
+BOL.leyendaMensual , BOL.leyendaPermanente, BOL.tipoServi
 FROM boletas BOL
 INNER JOIN personas PER ON PER.idpersona = BOL.idpersona
 INNER JOIN cargos CARG ON CARG.idcargo = BOL.idcargo
 INNER JOIN establecimientos EST ON EST.idestablecimiento = BOL.idestablecimiento
 INNER JOIN regimenLaborales REG ON REG.idregimenLaboral = BOL.idregimenLaboral
-INNER JOIN periodos PERI ON PERI.idperiodo = BOL.idperiodo;
+INNER JOIN periodos PERI ON PERI.idperiodo = BOL.idperiodo
+ORDER BY BOL.idboleta ASC;
+
+
+
+  
 
 
 

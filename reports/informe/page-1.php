@@ -43,7 +43,7 @@
     </tr>
 
     <tr>
-        <td><strong>TIPO DE SERVIDOR:</strong><br><br> <?php foreach ($datosObtenidos as $clave) echo "{$clave['tipo']}"; ?></td>
+        <td><strong>TIPO DE SERVIDOR:</strong><br><br> <?php foreach ($datosObtenidos as $clave) echo "{$clave['tipoServi']}"; ?></td>
         <td><strong>REGIMEN PENSIONARIO:</strong><br><br> <?php foreach ($datosObtenidos as $clave) echo "{$clave['regPensionario']}"; ?></td>
         <td><strong>CTA. TELEAHORRO O NRO. CHEQUE:</strong><br><br> <?php foreach ($datosObtenidos as $clave) echo "{$clave['cuenta']}"; ?></td>
     </tr>
@@ -131,10 +131,13 @@
                 <tbody>
                      <?php foreach ($conceptosObtenidos as $clave) {
                         if ($clave['tipo'] == 'I') { // Verifica si es ingreso
+
+                            $montoIngresos = number_format($clave['monto'] , 2);
+
                             echo "
                                 <tr style='border-bottom: 1px solid #ddd;'>
                                     <th style='padding: 3px; text-align: left;'>+{$clave['nombre']}</th>
-                                    <th style='padding: 3px; text-align: right;'>{$clave['monto']}</th>
+                                    <th style='padding: 3px; text-align: right;'>$montoIngresos</th>
                                 </tr>
                             ";
                         }
@@ -156,10 +159,13 @@
                 <tbody>
                     <?php foreach ($conceptosObtenidos as $clave) {
                             if ($clave['tipo'] == 'E') { // Verifica si es ingreso
+
+                                $montoEgresos = number_format($clave['monto'] , 2);
+
                                 echo "
                                     <tr style='border-bottom: 1px solid #ddd;'>
                                         <th style='padding: 3px; text-align: left;'>-{$clave['nombre']}</th>
-                                        <th style='padding: 3px; text-align: right;'>{$clave['monto']}</th>
+                                        <th style='padding: 3px; text-align: right;'>$montoEgresos</th>
                                     </tr>
                                 ";
                             }

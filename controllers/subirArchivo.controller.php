@@ -102,6 +102,7 @@ if ($_POST['op'] == 'importarArchivo') {
                     'idestablecimiento' => null,
                     'idregimenLaboral' => null,
                     'dniJud' => null,
+                    'tipoServidor' => null,
                     'tiempoServi' => null,
                     'essalud' => null,
                     'fechaIngreso' => null,
@@ -201,6 +202,11 @@ if ($_POST['op'] == 'importarArchivo') {
                 }
                 if (preg_match('/MImponible\s+([\d,.]+)/i', $boleta, $matches)) {
                     $persona['montoImponible'] = str_replace(',', '', $matches[1]);
+                }
+
+                // Extraer el Tipo de Servidor
+                if (preg_match('/Tipo\s+de\s+Servidor\s*:\s*(.+)/i', $boleta, $matches)) {
+                    $persona['tipoServidor'] = trim($matches[1]);
                 }
 
                 // Extraer Leyenda Permanente
@@ -417,20 +423,21 @@ if ($_POST['op'] == 'importarArchivo') {
 
                 // Insertar la boleta en la tabla boletas
                 $sql_boleta = "INSERT INTO boletas (
-                    idpersona, idcargo, idestablecimiento, idregimenLaboral, idperiodo, dniJud, 
+                    idpersona, idcargo, idestablecimiento, idregimenLaboral, idperiodo, dniJud, tipoServi,
                     tiempoServi, essalud, fechaIngreso, fechaTermino, leyendaPermanente, 
                     leyendaMensual, escala, cuenta, totalRemuneracion, totalDescuento, 
                     totalLiquido, montoImponible , id_archivo
-                ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ? , ?)";
+                ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ? , ? , ?)";
                 if ($stmt_boleta = $conn->prepare($sql_boleta)) {
                     $stmt_boleta->bind_param(
-                        'iiiiisssssssssssssi',
+                        'iiiiissssssssssssssi',
                         $persona['idpersona'],      // idpersona
                         $persona['idcargo'],         // idcargo
                         $persona['idestablecimiento'], // idestablecimiento
                         $persona['idregimenLaboral'], // idregimenLaboral
                         $periodo_id                 , // idperiodo
                         $persona['dniJud'],          // dniJud
+                        $persona['tipoServidor'],          // dniJud
                         $persona['tiempoServi'],     // tiempoServi
                         $persona['essalud'],         // essalud
                         $persona['fechaIngreso'],    // fechaIngreso

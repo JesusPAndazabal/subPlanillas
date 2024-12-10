@@ -74,7 +74,7 @@ function registrarPeriodo() {
                 alertSuccess('Periodo registrado con éxito.');
                 // Ahora que tenemos el ID del periodo, intentamos importar el archivo
                 importarArchivo(periodo_id, function(importSuccess) {
-                    console.log(importSuccess , "Importacion");
+                    console.log(importSuccess , "Importacion", res.success);
                     if (!importSuccess) {
                         // Si la importación falla, eliminamos el periodo
                         eliminarPeriodo(periodo_id);

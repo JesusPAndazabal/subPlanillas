@@ -100,3 +100,23 @@ BEGIN
 	SELECT * FROM vs_conceptos
 		WHERE idboleta = _idboleta;
 END $$
+
+
+-- Procedimientos para el rango de fechas
+DELIMITER $$
+CREATE PROCEDURE spu_obtener_formatos
+(
+	IN _p_numeroDoc  	CHAR(11),
+	IN _p_fechaInicio  	DATE,
+	IN _p_fechaFin 		DATE
+)
+BEGIN 
+	SELECT *
+	FROM vs_boletasConsultas
+	WHERE numeroDoc = _p_numeroDoc
+	  AND fechaInicio BETWEEN _p_fechaInicio AND _p_fechaFin;
+END $$
+
+
+
+     

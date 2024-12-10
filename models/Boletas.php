@@ -22,6 +22,14 @@ class Boleta extends ModelMaster {
         }
     }
 
+    public function obtenerFormatos($data){
+        try{
+            return parent::execProcedure($data, "spu_obtener_formatos" , true);
+        }catch(Exception $error){
+            die($error->getMessage());
+        }
+    }
+
     
 
 }

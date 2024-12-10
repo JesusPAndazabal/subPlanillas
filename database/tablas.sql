@@ -101,6 +101,7 @@ CREATE TABLE boletas
 	idregimenLaboral	INT NULL,
 	idperiodo		INT NULL,
 	dniJud			CHAR(11) NULL,
+	tipoServi		VARCHAR(100),
 	tiempoServi		DATE NULL,
 	essalud			INT NULL,
 	fechaIngreso 		DATE NULL,
