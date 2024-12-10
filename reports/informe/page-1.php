@@ -27,7 +27,18 @@
     <tr>
         <td id="th"><strong>ESTABLECIMIENTO:</strong><br><br> <?php foreach ($datosObtenidos as $clave) echo "{$clave['nombre']}"; ?></td>
         <td id="th" style="width: 80%;"><strong>CARGO</strong><br><br><?php foreach ($datosObtenidos as $clave) echo "{$clave['descripcion']}"; ?></td>
-        <td id="th"><strong>REGIMEN LABORAL:</strong><br><br> <?php foreach ($datosObtenidos as $clave) echo "{$clave['regimen']}"; ?></td>
+        <td id="th"><strong>REGIMEN LABORAL:</strong><br><br> 
+        <?php 
+
+            $regimen = $clave['regimen'];
+
+            if($regimen == null){
+                $regimen = '-';
+            }else{
+                $regimen = $regimen;
+            }
+            foreach ($datosObtenidos as $clave) echo $regimen; 
+        ?></td>
         
     </tr>
 
@@ -76,8 +87,29 @@
                 foreach ($datosObtenidos as $clave) echo $fechaAfili;
                  ?>
         </td>
-        <td><strong>LEYENDA MENSUAL:</strong><br><br>RD 1303</td>
-        <td><strong>LEYENDA PERMANENTE:</strong><br><br> RD 1303</td>
+        <td><strong>LEYENDA MENSUAL:</strong><br><br>
+        <?php 
+            $leyendaMensual = $clave['leyendaMensual'];
+
+            if($leyendaMensual == null){
+                $leyendaMensual = '-';
+            }else{
+                $leyendaMensual = $leyendaMensual;
+            }
+
+            foreach ($datosObtenidos as $clave) echo $leyendaMensual; 
+        ?></td>
+        <td><strong>LEYENDA PERMANENTE:</strong><br><br>
+        <?php 
+            $leyendaPermanente = $clave['leyendaPermanente'];
+
+            if($leyendaPermanente == null){
+                $leyendaPermanente = '-';
+            }else{
+                $leyendaPermanente = $leyendaPermanente;
+            }
+            foreach ($datosObtenidos as $clave) echo $leyendaPermanente; 
+        ?></td>
         
     </tr>
 </table>
@@ -126,7 +158,7 @@
                             if ($clave['tipo'] == 'E') { // Verifica si es ingreso
                                 echo "
                                     <tr style='border-bottom: 1px solid #ddd;'>
-                                        <th style='padding: 3px; text-align: left;'>+{$clave['nombre']}</th>
+                                        <th style='padding: 3px; text-align: left;'>-{$clave['nombre']}</th>
                                         <th style='padding: 3px; text-align: right;'>{$clave['monto']}</th>
                                     </tr>
                                 ";

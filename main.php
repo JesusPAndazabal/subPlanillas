@@ -222,6 +222,15 @@ if ($_SESSION['acceso'] == false){
                             </p>
                           </a>                  
                         </li>
+
+                        <li class='nav-item'>
+                          <a href='main.php?view=consultaAdmin-vista' class='nav-link btn-profile-index' style='color:white'>
+                          <i class='nav-icon fas fa-file-archive'></i>
+                            <p>
+                              CONSULTAR BOLETA
+                            </p>
+                          </a>                  
+                        </li>
                       ";
                   }
                 ?>  

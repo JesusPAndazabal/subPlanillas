@@ -31,4 +31,8 @@ SELECT * FROM boletas WHERE idpersona = 828
 1072
 1762
 
+SELECT * FROM vs_boletasConsultas WHERE numeroDoc = 21527635
+SELECT * FROM periodos;
+
+
 DELETE FROM  personas;

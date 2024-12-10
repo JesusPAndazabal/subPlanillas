@@ -2,8 +2,13 @@
 
 session_start();
 
+
+
 require_once '../models/Serverside.php';
 require_once '../models/Boletas.php';
+
+use PhpOffice\PhpSpreadsheet\Spreadsheet;
+use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
 
 if(isset($_GET['op'])){
 
@@ -36,8 +41,9 @@ if(isset($_GET['op'])){
         }
     }
 
-
-
+    if($_GET['op'] == 'listarConsultasAdmin'){
+        $data = $serverSide->get("vs_boletasConsultas", "idboleta", array("idboleta", "nombres", "apellidos", "numeroDoc" , "descripcion", "nombre", "tipo", "mes", "anio"));
+    } 
 
     if ($_GET['op'] == 'buscardetalleDni') {
         $params = [
@@ -48,6 +54,7 @@ if(isset($_GET['op'])){
         listarBoletasConsulta($data);
     }
 
+ 
 }
 
 ?>

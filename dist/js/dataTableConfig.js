@@ -129,6 +129,16 @@ var columnDefsEmpleados = [
   }
 ]
 
+var columnDefsConsultasAdmin = [
+    {
+        "data"   : null,
+        render : function(data, type, row){
+            return `<a class="dropdown-item reporte" data-idboleta='${data[0]}' href="#"><i class='fas fa-print mr-2'></i>Reporte</a>`;
+        },
+        "targets"    : 9    
+    }
+  ]
+
 var columnDefsRevision = [
   {
       "data"   : null,
