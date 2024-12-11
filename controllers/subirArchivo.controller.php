@@ -89,6 +89,7 @@ if ($_POST['op'] == 'importarArchivo') {
                     'apellidos' => null,
                     'tipoDoc' => 'D', // Supuesto: Documento Nacional
                     'numeroDoc' => null,
+                    'fechaNacimiento' => null,
                     'numCuenta' => null,
                     'regPensionario' => null,
                     'fechaAfiliacion' => null,
@@ -115,6 +116,10 @@ if ($_POST['op'] == 'importarArchivo') {
                     'totalDescuento' => null,
                     'totalLiquido' => null,
                     'montoImponible' => null,
+                    'aporteOblig'  => null,
+                    'cVariable' => null,
+                    'fDevenge' => null,
+                    'seguro' => null,
                     'idboleta' => null,
                 ];
 
@@ -209,19 +214,68 @@ if ($_POST['op'] == 'importarArchivo') {
                     $persona['tipoServidor'] = trim($matches[1]);
                 }
 
-                // Extraer Leyenda Permanente
-            if (preg_match('/Leyenda Permanente\s*[:|-]\s*(.*?)(?=\s*Leyenda Mensual|\s*$)/i', $boleta, $matches)) {
-                $leyendaPermanente = trim($matches[1]);
+                // Extraer y validar la Fecha de Nacimiento
+                if (preg_match('/Fecha\s+de\s+Nacimiento\s*:\s*(\d{2}\/\d{2}\/\d{4})/i', $boleta, $matches)) {
+                    $fechaExtraida = trim($matches[1]); // Ejemplo: "31/01/1971"
 
-                // Si la leyenda está vacía o contiene solo espacios, asignar null
-                if (empty($leyendaPermanente)) {
-                    $persona['leyendaPermanente'] = null;
+                    // Validar el formato de la fecha (DD/MM/YYYY)
+                    $fechaPartes = explode('/', $fechaExtraida); // Divide la fecha en día, mes y año
+                    if (count($fechaPartes) === 3) {
+                        $dia = (int)$fechaPartes[0];
+                        $mes = (int)$fechaPartes[1];
+                        $anio = (int)$fechaPartes[2];
+
+                        // Verificar si es una fecha válida
+                        if (checkdate($mes, $dia, $anio)) {
+                            // Convertir a formato Y-m-d (por ejemplo: "1971-01-31")
+                            $persona['fechaNacimiento'] = sprintf('%04d-%02d-%02d', $anio, $mes, $dia);
+                        } else {
+                            // Fecha no válida
+                            $persona['fechaNacimiento'] = null; // Puedes asignar un valor predeterminado si lo necesitas
+                        }
+                    } else {
+                        // Fecha no válida
+                        $persona['fechaNacimiento'] = null;
+                    }
                 } else {
-                    $persona['leyendaPermanente'] = $leyendaPermanente;
+                    // Si no se encuentra la fecha en el texto
+                    $persona['fechaNacimiento'] = null;
                 }
-            } else {
-                $persona['leyendaPermanente'] = null; // Si no se encuentra, dejar vacío
-            }
+
+
+                // Extraer Leyenda Permanente
+                if (preg_match('/Leyenda Permanente\s*[:|-]\s*(.*?)(?=\s*Leyenda Mensual|\s*$)/i', $boleta, $matches)) {
+                    $leyendaPermanente = trim($matches[1]);
+
+                    // Si la leyenda está vacía o contiene solo espacios, asignar null
+                    if (empty($leyendaPermanente)) {
+                        $persona['leyendaPermanente'] = null;
+                    } else {
+                        $persona['leyendaPermanente'] = $leyendaPermanente;
+                    }
+                } else {
+                    $persona['leyendaPermanente'] = null; // Si no se encuentra, dejar vacío
+                }
+
+                // Extraer el Aporte Obligatorio
+                if (preg_match('/Aporte\s+Oblg:\s+([\d\.]+)/i', $boleta, $matches)) {
+                    $persona['aporteOblig'] = trim($matches[1]);
+                }
+
+                // Extraer el C Variable
+                if (preg_match('/CVariable\s*:\s*([\d\.]+)/i', $boleta, $matches)) {
+                    $persona['cVariable'] = trim($matches[1]);
+                }
+
+                // Extraer el F Devengue
+                if (preg_match('/FDevengue\s*:\s*([\d\/]+)/i', $boleta, $matches)) {
+                    $persona['fDevengue'] = trim($matches[1]);
+                }
+
+                // Extraer el Seguro
+                if (preg_match('/Seguro\s*:\s*([\d\.]+)/i', $boleta, $matches)) {
+                    $persona['seguro'] = trim($matches[1]);
+                }
 
             // Extraer Leyenda Mensual
             if (preg_match('/Leyenda Mensual\s*[:|-]\s*(.*?)(?=\s*Reg.Pensionario|\s*$)/i', $boleta, $matches)) {
@@ -390,16 +444,17 @@ if ($_POST['op'] == 'importarArchivo') {
                         $persona['idpersona'] = $idpersona;
                     } else {
                         // Si no existe, insertamos la persona
-                        $sql = "INSERT INTO personas (nombres, apellidos, tipoDoc, numeroDoc, numCuenta, regPensionario, fechaAfiliacion, cussp)
-                                VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+                        $sql = "INSERT INTO personas (nombres, apellidos, tipoDoc, numeroDoc, fechaNacimiento ,numCuenta, regPensionario, fechaAfiliacion, cussp)
+                                VALUES (?, ?, ?, ?, ?, ?, ?, ? , ?)";
 
                         if ($stmt = $conn->prepare($sql)) {
                             $stmt->bind_param(
-                                'ssssssss',
+                                'sssssssss',
                                 $persona['nombres'],
                                 $persona['apellidos'],
                                 $persona['tipoDoc'],
                                 $persona['numeroDoc'],
+                                $persona['fechaNacimiento'],
                                 $persona['numCuenta'],
                                 $persona['regPensionario'],
                                 $persona['fechaAfiliacion'],
@@ -426,11 +481,11 @@ if ($_POST['op'] == 'importarArchivo') {
                     idpersona, idcargo, idestablecimiento, idregimenLaboral, idperiodo, dniJud, tipoServi,
                     tiempoServi, essalud, fechaIngreso, fechaTermino, leyendaPermanente, 
                     leyendaMensual, escala, cuenta, totalRemuneracion, totalDescuento, 
-                    totalLiquido, montoImponible , id_archivo
-                ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ? , ? , ?)";
+                    totalLiquido, montoImponible , aporteOblig , cVariable , fDevenge , seguro , id_archivo
+                ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ? , ? , ? , ? , ? , ? , ? )";
                 if ($stmt_boleta = $conn->prepare($sql_boleta)) {
                     $stmt_boleta->bind_param(
-                        'iiiiissssssssssssssi',
+                        'iiiiissssssssssssssssssi',
                         $persona['idpersona'],      // idpersona
                         $persona['idcargo'],         // idcargo
                         $persona['idestablecimiento'], // idestablecimiento
@@ -450,6 +505,10 @@ if ($_POST['op'] == 'importarArchivo') {
                         $persona['totalDescuento'],  // totalDescuento
                         $persona['totalLiquido'],    // totalLiquido
                         $persona['montoImponible'],  // montoImponible
+                        $persona['aporteOblig'],  // montoImponible
+                        $persona['cVariable'],  // montoImponible
+                        $persona['fDevengue'],  // montoImponible
+                        $persona['seguro'],  // montoImponible
                         $id_archivo
                     );
 

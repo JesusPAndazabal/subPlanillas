@@ -21,6 +21,7 @@ CREATE TABLE personas
 	apellidos	VARCHAR(100) NULL,
 	tipoDoc		CHAR(1) NULL,
 	numeroDoc	CHAR(11) NULL,
+	fechaNacimiento	DATE NULL,
 	provincia	VARCHAR(200) NULL,
 	region		VARCHAR(200) NULL,
 	distrito 	VARCHAR(200) NULL,
@@ -114,6 +115,10 @@ CREATE TABLE boletas
 	totalDescuento		DOUBLE(8,2) NULL,
 	totalLiquido		DOUBLE(8,2) NULL,
 	montoImponible		DOUBLE(8,2) NULL,
+	aporteOblig		DOUBLE(8,2) NULL,
+	cVariable		DOUBLE(8,2) NULL,
+	fDevenge		DOUBLE(8,2) NULL,
+	seguro			DOUBLE(8,2) NULL,
 	id_archivo		INT NULL, -- Campo para almacenar el id del archivo
 	
 	CONSTRAINT fk_boletas_personas FOREIGN KEY (idpersona) REFERENCES personas(idpersona),
