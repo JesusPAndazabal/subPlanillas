@@ -30,6 +30,15 @@ class Boleta extends ModelMaster {
         }
     }
 
+    public function buscarBoleta(array $data){
+        try{
+            return parent::execProcedure($data , "spu_filtroConsultas",true);
+
+        }catch(Exception $error){
+            die($error->getMessage());
+        }
+    }
+
     
 
 }

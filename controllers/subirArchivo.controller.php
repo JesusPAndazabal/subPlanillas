@@ -124,7 +124,7 @@ if ($_POST['op'] == 'importarArchivo') {
                 ];
 
                 // Depuración: Mostrar boleta procesada - BORRAR
-                error_log("Procesando boleta: " . substr($boleta, 0, 100)); // Mostrar los primeros 100 caracteres
+                //error_log("Procesando boleta: " . substr($boleta, 0, 100)); // Mostrar los primeros 100 caracteres
 
                 // Buscar los campos utilizando expresiones regulares
                 if (preg_match('/Apellidos\s*[:\s]*(.*)/i', $boleta, $matches)) {

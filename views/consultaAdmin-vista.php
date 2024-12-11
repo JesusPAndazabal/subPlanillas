@@ -37,8 +37,7 @@
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-success" id="descargarFonavi">APORTACIONES AL FONAVI</button>
-        <button type="button" class="btn btn-success">APORTACIONES AL ONP</button>
-        <button type="button" class="btn btn-success">PREPARACIÓN DE CLASES</button>
+        <button type="button" class="btn btn-success" id="descargarPreparacion">PREPARACIÓN DE CLASES</button>
       </div>
     </div>
   </div>
@@ -46,7 +45,6 @@
 
 
 <hr>
-
 
 <div class="row">
     <div class="col-md-4">
@@ -60,7 +58,8 @@
     <div class="col-md-4">
         <label for="">Mes</label>
         <select class="custom-select custom-select" id="mes" data-index="7">
-            <option value="Enero" selected>Enero</option>
+            <option value="" selected>Seleccionar Mes</option>
+            <option value="Enero">Enero</option>
             <option value="Febrero">Febrero</option>
             <option value="Marzo">Marzo</option>
             <option value="Abril">Abril</option>
@@ -76,7 +75,8 @@
     </div>
 </div><br>
 
-<table class="table table-valign-middle table-striped text-center" id="tabla-consultaAdmin">
+<div id="contenedor-tabla-consulta" style="display: none;">
+  <table class="table table-valign-middle table-striped text-center" id="tabla-consultaAdmin">
             <thead>
                 <tr>
                     <th>N°</th>
@@ -92,10 +92,12 @@
                     <!-- Otros campos si es necesario -->
                 </tr>
             </thead>
-            <tbody id = "tabla-consultaAdmin">
+            <tbody id = "datos-consultaAdmin">
                 <!-- Aquí se cargarán los detalles con JavaScript -->
             </tbody>
-        </table>
+  </table>
+</div>
+        
 
 <!-- Configuracion de alertas personalizadas -->
 <script src="dist/js/configAlerts.js"></script> 

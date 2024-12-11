@@ -117,6 +117,41 @@ BEGIN
 	  AND fechaInicio BETWEEN _p_fechaInicio AND _p_fechaFin;
 END $$
 
+-- Procedimiento para listar la boleta 
+SELECT * FROM vs_boletasConsultasLivi
+	WHERE numeroDoc = 21527635 AND anio = 2003 AND mes = 'Enero'
+	
+	
+DELIMITER $$
+CREATE PROCEDURE spu_filtroConsultas 
+(
+	IN _numeroDoc CHAR(11),
+	IN _anio 	CHAR(4),
+	IN _mes		VARCHAR(40)
+)
+BEGIN 
+
+	-- Si _mes es una cadena vacía, lo convertimos en NULL
+	    IF _mes = '' THEN
+		SET _mes = NULL;
+	    END IF;
+	    
+	       -- Si _anio es una cadena vacía, lo convertimos en NULL
+	    IF _anio = '' THEN
+		SET _anio = NULL;
+	    END IF;
+	    
+	SELECT * 
+	FROM vs_boletasConsultasLivi
+	WHERE (numeroDoc = _numeroDoc OR _numeroDoc IS NULL)
+	  AND (anio = _anio OR _anio IS NULL)
+	  AND (mes = _mes OR _mes IS NULL);
+END $$
+
+CALL spu_filtroConsultas (21527635, 2003, '')
+
+SELECT * FROM personas
+
 
 
      
