@@ -14,7 +14,7 @@ SELECT * FROM regimenLaborales
 SELECT * FROM cargos
 SELECT * FROM campos
 SELECT * FROM periodos
-SELECT * FROM boletas
+SELECT * FROM vs_boletasConsultas WHERE anio = 2020
 SELECT * FROM conceptos
 SELECT * FROM archivos_subidos
 
@@ -36,3 +36,4 @@ SELECT * FROM periodos;
 
 
 DELETE FROM  personas;
+DELETE FROM periodos WHERE idperiodo = 219

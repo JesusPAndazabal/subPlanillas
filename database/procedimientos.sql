@@ -148,7 +148,7 @@ BEGIN
 	  AND (mes = _mes OR _mes IS NULL);
 END $$
 
-CALL spu_filtroConsultas (21527635, 2003, '')
+CALL spu_filtroConsultas (21527635, 2020, '')
 
 SELECT * FROM personas
 

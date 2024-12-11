@@ -177,16 +177,25 @@ if ($_POST['op'] == 'importarArchivo') {
                 }
 
                 // Buscar Fecha de Ingreso y Fecha de Término
-                if (preg_match('/Fecha de Registro.*?Ingr\.\s*:\s*(\d{2}\/\d{2}\/\d{4})\s*Termino\s*:\s*(\d{2}\/\d{2}\/\d{4}|)/i', $boleta, $matches)) {
-                    $fechaIngreso = DateTime::createFromFormat('d/m/Y', trim($matches[1]))->format('Y-m-d');
-                    
-                    $fechaTermino = !empty(trim($matches[2]))
-                        ? DateTime::createFromFormat('d/m/Y', trim($matches[2]))->format('Y-m-d')
-                        : NULL;
+                if (preg_match('/Fecha de Registro.*?(Ingr\.\s*:\s*(\d{2}\/\d{2}\/\d{4})|Cese\s*:\s*(\d{2}\/\d{2}\/\d{4})).*?Termino\s*:\s*(\d{2}\/\d{2}\/\d{4}|)/i', $boleta, $matches)) {
+                    // Fecha de Ingreso o Cese
+                    $fechaIngreso = null;
+                    if (!empty($matches[2])) {
+                        $fechaIngreso = DateTime::createFromFormat('d/m/Y', trim($matches[2]))->format('Y-m-d');
+                    } elseif (!empty($matches[3])) {
+                        $fechaIngreso = DateTime::createFromFormat('d/m/Y', trim($matches[3]))->format('Y-m-d');
+                    }
+
+                    // Fecha de Término
+                    $fechaTermino = null;
+                    if (isset($matches[5]) && !empty(trim($matches[5]))) {
+                        $fechaTermino = DateTime::createFromFormat('d/m/Y', trim($matches[5]))->format('Y-m-d');
+                    }
 
                     $persona['fechaIngreso'] = $fechaIngreso;
                     $persona['fechaTermino'] = $fechaTermino;
                 }
+
 
                 // Extraer cuenta o número de cheque
                 if (preg_match('/Cta\. TeleAhorro o Nro\. Cheque:\s*(CTA-\s*\d+|CHQ-\s*\d+)/i', $boleta, $matches)) {
@@ -209,10 +218,11 @@ if ($_POST['op'] == 'importarArchivo') {
                     $persona['montoImponible'] = str_replace(',', '', $matches[1]);
                 }
 
-                // Extraer el Tipo de Servidor
-                if (preg_match('/Tipo\s+de\s+Servidor\s*:\s*(.+)/i', $boleta, $matches)) {
-                    $persona['tipoServidor'] = trim($matches[1]);
+                // Extraer el Tipo de Servidor o Tipo de Pensionista
+                if (preg_match('/Tipo\s+de\s+(Servidor|Pensionista)\s*:\s*(.+)/i', $boleta, $matches)) {
+                    $persona['tipoServidor'] = trim($matches[2]);
                 }
+
 
                 // Extraer y validar la Fecha de Nacimiento
                 if (preg_match('/Fecha\s+de\s+Nacimiento\s*:\s*(\d{2}\/\d{2}\/\d{4})/i', $boleta, $matches)) {

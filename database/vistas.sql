@@ -84,6 +84,7 @@ INNER JOIN establecimientos EST ON EST.idestablecimiento = BOL.idestablecimiento
 INNER JOIN regimenLaborales REG ON REG.idregimenLaboral = BOL.idregimenLaboral
 INNER JOIN periodos PERI ON PERI.idperiodo = BOL.idperiodo
 INNER JOIN vs_conceptos_bono CONC ON CONC.idboleta = BOL.idboleta;
+ORDER BY PERI.anio;
 
 
 
