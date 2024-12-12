@@ -40,13 +40,13 @@ if(isset($_GET['op'])){
         }
     }
 
-/*     if($_GET['op'] == 'listarConsultasAdmin'){
-        $data = $serverSide->get("vs_boletasConsultasLivi", "idboleta", array("idboleta", "nombres", "apellidos", "numeroDoc" , "descripcion", "nombre", "tipoServi", "mes", "anio"));
+  /*   if($_GET['op'] == 'listarConsultasAdmin'){
+        $data = $serverSide->get("vs_boletasConsultasVista", "idboleta", array("idboleta", "nombres", "apellidos", "numeroDoc" , "descripcion", "nombre", "tipoServi", "mes", "anio"));
     }  */
 
     // Opción para listar las consultas administrativas
     if ($_GET['op'] == 'listarConsultasAdmin') {
-    // Recoger los parámetros de los filtros desde la URL (si están presentes)
+        // Recoger los parámetros de los filtros desde la URL (si están presentes)
         $numeroDoc = isset($_GET['numeroDoc']) ? $_GET['numeroDoc'] : null;
         $anio = isset($_GET['anio']) ? $_GET['anio'] : null;
         $mes = isset($_GET['mes']) ? $_GET['mes'] : null;

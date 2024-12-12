@@ -18,7 +18,7 @@
                         <option value="CES/TIT">CES/TIT</option>
                         <option value="ACT/JUD">ACT/JUD</option>
                         <option value="ACT/OCA">ACT/OCA</option>
-                        <option value="ACT/CONT/TIT - ACT/NOM/TIT">ACT/CONT/TIT - ACT/NOM/TIT</option>
+                        <option value="ACT/CONT/TIT - ACT/NOMB/TIT">ACT/CONT/TIT - ACT/NOM/TIT</option>
                     </select>
                  </div>
             </div>
@@ -29,7 +29,6 @@
                     <label for="formaPago">Forma de Pago:</label>
                     <select class="custom-select" id="formaPago" name="formaPago" required>
                         <option value="" disabled selected>Seleccione la forma de pago</option>
-                        <option value="Cheque">CHEQUE</option>
                         <option value="Teleahorro">TELEAHORRO / CUENTA</option>
                     </select>
                 </div>

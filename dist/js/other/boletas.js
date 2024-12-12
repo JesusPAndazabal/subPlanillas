@@ -157,10 +157,12 @@ function listarConsultasAdmin() {
     });
 }
 
+
 // Evento keyup para buscar por número de documento
 $("#numeroDoc").on("keyup", function () {
+    console.log("evento");
     listarConsultasAdmin();
-});
+}); 
 
 // Evento keyup para buscar por año
 $("#anio").on("keyup", function () {

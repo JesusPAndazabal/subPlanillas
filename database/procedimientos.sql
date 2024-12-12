@@ -117,9 +117,6 @@ BEGIN
 	  AND fechaInicio BETWEEN _p_fechaInicio AND _p_fechaFin;
 END $$
 
--- Procedimiento para listar la boleta 
-SELECT * FROM vs_boletasConsultasLivi
-	WHERE numeroDoc = 21527635 AND anio = 2003 AND mes = 'Enero'
 	
 	
 DELIMITER $$
@@ -142,15 +139,12 @@ BEGIN
 	    END IF;
 	    
 	SELECT * 
-	FROM vs_boletasConsultasLivi
+	FROM vs_boletasConsultas
 	WHERE (numeroDoc = _numeroDoc OR _numeroDoc IS NULL)
 	  AND (anio = _anio OR _anio IS NULL)
 	  AND (mes = _mes OR _mes IS NULL);
 END $$
 
-CALL spu_filtroConsultas (21527635, 2020, '')
-
-SELECT * FROM personas
 
 
 

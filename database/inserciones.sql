@@ -14,11 +14,12 @@ SELECT * FROM regimenLaborales
 SELECT * FROM cargos
 SELECT * FROM campos
 SELECT * FROM periodos
-SELECT * FROM vs_boletasConsultas WHERE anio = 2020
+SELECT * FROM vs_boletasConsultas WHERE numeroDoc = 21456705
 SELECT * FROM conceptos
 SELECT * FROM archivos_subidos
+SELECT * FROM boletas WHERE idpersona = 2389
 
-SELECT * FROM personas WHERE nombres LIKE ('%ADA CLARIBEL%')
+SELECT * FROM personas WHERE numeroDoc = 21456705 2389
 
 SELECT * FROM boletas
 WHERE idregimenLaboral IS NULL

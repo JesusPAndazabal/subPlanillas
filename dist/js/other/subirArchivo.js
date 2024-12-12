@@ -1,6 +1,9 @@
 function importarArchivo(periodo_id, callback) {
     var formData = new FormData();
     var archivo = $("#archivoLis")[0].files[0];
+    var tipoSeleccionado = $("#tipoPago").val();
+
+    console.log(tipoSeleccionado , "tIPO SELECCIONADO");
 
     if (!archivo) {
         alertWarning('Debe seleccionar un archivo .lis para importar.');
@@ -11,6 +14,7 @@ function importarArchivo(periodo_id, callback) {
     formData.append("op", "importarArchivo");
     formData.append("archivoLis", archivo);
     formData.append("periodo_id", periodo_id); // Aquí pasas el periodo_id
+    formData.append("tipoPago", tipoSeleccionado); 
 
     sweetAlertConfirmQuestionSave("¿Está seguro de importar este archivo?").then((confirm) => {
         if (confirm.isConfirmed) {
@@ -78,7 +82,7 @@ function registrarPeriodo() {
                     if (!importSuccess) {
                         // Si la importación falla, eliminamos el periodo
                         eliminarPeriodo(periodo_id);
-                        alertError('El archivo no se pudo importar. El periodo ha sido eliminado.');
+                        //alertError('El archivo no se pudo importar. El periodo ha sido eliminado.');
                     }
                 });
             } else {

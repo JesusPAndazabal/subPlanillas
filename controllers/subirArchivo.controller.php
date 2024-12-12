@@ -23,6 +23,7 @@ if ($_POST['op'] == 'importarArchivo') {
     if (isset($_FILES['archivoLis']) && $_FILES['archivoLis']['error'] == 0) {
         
         $periodo_id = $_POST['periodo_id'];
+        $tipoSeleccionado = isset($_POST['tipoPago']) ? strtoupper(trim($_POST['tipoPago'])) : '';
         $archivo = $_FILES['archivoLis']['tmp_name'];
 
         $contenido = file_get_contents($archivo);
@@ -44,6 +45,58 @@ if ($_POST['op'] == 'importarArchivo') {
             }
             $stmt_check->close();
         }
+
+    
+
+       
+
+            // Extraer el tipo de boleta del contenido del archivo
+            $tipoEnArchivo = null;
+            if (preg_match('/(?:ENERO|FEBRERO|MARZO|ABRIL|MAYO|JUNIO|JULIO|AGOSTO|SETIEMBRE|OCTUBRE|NOVIEMBRE|DICIEMBRE)\s*-\s*\d{4}.*?([A-Z\/\-]+)\s*\(?/i', $contenido, $matches)) {
+                $tipoEnArchivo = strtoupper(trim($matches[1]));
+            } else {
+                error_log("No se encontró el tipo de boleta en el archivo: " . $contenido);  // Imprime el contenido para ver si está presente
+                echo json_encode(['success' => false, 'message' => 'No se encontró el tipo de boleta en el archivo.']);
+                exit;
+            }
+            
+            
+            // Verificar si se encontró un tipo en el archivo antes de hacer el explode
+            if ($tipoEnArchivo) {
+                $tiposEnArchivo = explode(' - ', $tipoEnArchivo);  // Si el archivo contiene múltiples tipos separados por " - "
+            } else {
+                // Si no se encontró el tipo, maneja el error de forma adecuada
+                error_log("No se encontró el tipo de boleta en el archivo.");
+                echo json_encode(['success' => false, 'message' => 'No se encontró el tipo de boleta en el archivo.']);
+                exit;
+            }
+      
+
+            // Dividir el tipo seleccionado en caso de que sea una combinación (por ejemplo, "ACT/CONT/TIT - ACT/NOM/TIT")
+            $tiposSeleccionados = explode(' - ', strtoupper(trim($tipoSeleccionado)));
+
+            // Para depuración, muestra los tipos extraídos y seleccionados
+            error_log("Tipo extraído del archivo: " . implode(' - ', $tiposEnArchivo));
+            error_log("Tipo seleccionado: " . implode(' - ', $tiposSeleccionados));
+
+
+            // Comparar ambos arrays, para que sea flexible y acepte cualquier orden
+            if (count(array_intersect($tiposSeleccionados, $tiposEnArchivo)) > 0) {
+                error_log("COINCIDEN");
+                //echo json_encode(['success' => true, 'message' => 'El archivo y el tipo seleccionado coinciden.']);
+            } else {
+                error_log("NOCOINCIDEN");
+                echo json_encode(['success' => false, 'message' => 'El tipo de boleta seleccionado no coincide con el archivo.']);
+                exit;
+            }
+
+            
+
+
+
+        
+
+
 
         $sql_insert_archivo = "INSERT INTO archivos_subidos (nombre_archivo, codigo_unico) VALUES (?, ?)";
         if ($stmt_insert_archivo = $conn->prepare($sql_insert_archivo)) {

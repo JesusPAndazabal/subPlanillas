@@ -27,18 +27,8 @@
     <tr>
         <td id="th"><strong>ESTABLECIMIENTO:</strong><br><br> <?php foreach ($datosObtenidos as $clave) echo "{$clave['nombre']}"; ?></td>
         <td id="th" style="width: 80%;"><strong>CARGO</strong><br><br><?php foreach ($datosObtenidos as $clave) echo "{$clave['descripcion']}"; ?></td>
-        <td id="th"><strong>REGIMEN LABORAL:</strong><br><br> 
-        <?php 
-
-            $regimen = $clave['regimen'];
-
-            if($regimen == null){
-                $regimen = '-';
-            }else{
-                $regimen = $regimen;
-            }
-            foreach ($datosObtenidos as $clave) echo $regimen; 
-        ?></td>
+        <td id="th"><strong>Tipo de Boleta:</strong><br><br> 
+        <?php foreach ($datosObtenidos as $clave) echo "{$clave['tipo']}"; ?></td>
         
     </tr>
 
