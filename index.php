@@ -21,7 +21,7 @@ else{
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Inicio de Sesión - QuerySheet</title>
+    <title>Inicio de Sesión - CONSULTA DE BOLETAS</title>
 
     <link href="dist/css/other/stylelogin.css" rel="stylesheet" >
 
@@ -47,6 +47,11 @@ else{
     <div class="forms">
         <div class="form-content">
           <div class="login-form">
+          <img src="dist/img/logoMinisterio.png" style="width: 250px; margin-left:45px;" alt="" class="mb-5">
+          <br>  
+          <h2 style="text-align: center;">Aplicativo para consulta de Boletas</h2>
+          <br>
+
             <div class="title">Iniciar Sesión</div>
           <form>
             <div class="input-boxes">
@@ -66,37 +71,7 @@ else{
             </div>
         </form>
       </div>
-        <div class="signup-form">
-          <div class="title">Registrar</div>
-        <form action="#">
-            <div class="input-boxes">
-              <div class="input-box">
-                <i class="fas fa-user"></i>
-                <input type="text" placeholder="Apellidos" id ="apellidosuser" autocomplete = "off">
-              </div>
-              <div class="input-box">
-                <i class="fas fa-user"></i>
-                <input type="text" placeholder="Nombres" id="nombresuser" autocomplete = "off">
-              </div>
-              <div class="input-box">
-                <i class="fas fa-user"></i>
-                <input type="text" placeholder="Nombre de usuario" id="nomuser" autocomplete = "off">
-              </div>
-              <div class="input-box">
-                <i class="fas fa-lock"></i>
-                <input type="password" placeholder="Contraseña" id="claveacceso1" autocomplete = "off">
-              </div>
-              <div class="input-box">
-                <i class="fas fa-lock"></i>
-                <input type="password" placeholder="Repetir contraseña" id="claveacceso2" autocomplete = "off">
-              </div>
-              <div class="button input-box" id="registrarUsuario">
-                <input type="submit" value="Registrarse" >
-              </div>
-              <div class="text sign-up-text">¿Ya tiene un cuenta? <label for="flip">Iniciar Sesión</label></div>
-            </div>
-        </form>
-    </div>
+        
     </div>
     </div>
   </div>

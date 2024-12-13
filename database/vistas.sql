@@ -21,7 +21,9 @@ FROM periodos;
 
 -- ESTABLECIMIENTOS
 CREATE VIEW vs_establecimientos AS
-SELECT * 
+SELECT 
+    idestablecimiento,
+    COALESCE(nombre, 'sin establecimiento') AS nombre
 FROM establecimientos;
 
 -- REGIMENES LABORALES

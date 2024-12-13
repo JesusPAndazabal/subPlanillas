@@ -200,7 +200,7 @@ if ($_SESSION['acceso'] == false){
                 <a href='main.php' class='nav-link' style='color:white'>
                   <i class='nav-icon fas fa-home' ></i>
                   <p>
-                    Inicio
+                    INICIO
                   </p>
                 </a>
               </li>
@@ -229,7 +229,7 @@ if ($_SESSION['acceso'] == false){
                         </li>
 
                         <li class='nav-item'>
-                          <a href='main.php?view=consultaAdmin-vista' class='nav-link btn-profile-index' style='color:white'>
+                          <a href='main.php?view=reporteFormatos-vista' class='nav-link btn-profile-index' style='color:white'>
                           <i class='nav-icon fas fa-file-signature'></i>
                             <p>
                               REPORTES
@@ -249,7 +249,7 @@ if ($_SESSION['acceso'] == false){
                           <a href='main.php?view=consulta-vista  ' class='nav-link btn-profile-index' style='color:white'>
                           <i class='nav-icon fas fa-file-archive'></i>
                             <p>
-                              Consultar Boletas
+                              CONSULTAR BOLETAS
                             </p>
                           </a>                  
                         </li>
@@ -257,10 +257,10 @@ if ($_SESSION['acceso'] == false){
                         <li class='nav-header'>ACCESOS</li>
 
                         <li class='nav-item'>
-                          <a href='main.php?view=consulta-vista  ' class='nav-link btn-profile-index' style='color:white'>
+                          <a href='main.php?view=perfil-vista' class='nav-link btn-profile-index' style='color:white'>
                           <i class='nav-icon fas fa-file-archive'></i>
                             <p>
-                              Mi Perfil
+                              MI PERFIL
                             </p>
                           </a>                  
                         </li>
@@ -276,7 +276,7 @@ if ($_SESSION['acceso'] == false){
               
               <li class='nav-item'>
                 <a href='main.php?view=personas-vista' class='nav-link btn-profile-index' style='color:white'>
-                <i class='nav-icon fas fa-file-archive'></i>
+                <i class='nav-icon fas fa-user-friends'></i>
                   <p>
                       PERSONAL
                   </p>
@@ -294,7 +294,7 @@ if ($_SESSION['acceso'] == false){
 
               <li class='nav-item'>
                 <a href='main.php?view=establecimientos-vista' class='nav-link btn-profile-index' style='color:white'>
-                <i class='nav-icon fas fa-file-archive'></i>
+                <i class='nav-icon fas fa-building'></i>
                   <p>
                       ESTABLECIMIENTOS
                   </p>
@@ -325,6 +325,14 @@ if ($_SESSION['acceso'] == false){
                         <i class='nav-icon fas fa-id-card'></i>
                           <p>
                             USUARIOS
+                          </p>
+                        </a>                  
+                      </li>
+                      <li class='nav-item'>
+                        <a href='main.php?view=perfil-vista' class='nav-link btn-profile-index' style='color:white'>
+                        <i class='nav-icon fas fa-id-card'></i>
+                          <p>
+                            MI PERFIL
                           </p>
                         </a>                  
                       </li>

@@ -198,26 +198,20 @@ function validarDni(){
 
 //Funcion para actualizar al Usuario
 function actualizarUsuario(){
-    var apellidosuser   =     $("#apellidos").val();
-    var nombresuser     =     $("#nombres").val();
     var nomuser         =     $("#nombresusuario").val();
     var correo          =     $("#correoperfil").val();
-    var numerodni       =     $("#numerodniperfil").val();
     var nivelacceso     =     $("#nivelaccesoperfil").val();
     var telefono        =     $("#telefonoperfil").val();
 
     var datos = {
         op : 'actualizarUsuario',
-        apellidosuser : apellidosuser,
-        nombresuser : nombresuser,
         nomuser : nomuser,
         correo : correo,
-        numerodni : numerodni,
         nivelacceso : nivelacceso,
         telefono : telefono
     }
 
-    if(apellidosuser == '' || nombresuser == '' || nomuser == ''){
+    if(nomuser == ''){
         alertWarning('Complete los datos solicitados');
     }else{  
             sweetAlertConfirmQuestionSave("¿Está seguro actualizar los datos?").then((confirm) => {
@@ -228,6 +222,7 @@ function actualizarUsuario(){
                         data : datos,
                         success: function(e){
                            if(e == ""){
+                                obtenerUsuarios();
                                 bloquearCajas();
                                 alertSuccess("Datos actualizados correctamente");
                                 $("#guardarPerfil").hide();
@@ -302,29 +297,26 @@ function actualizarClave(){
 
 //Funcion para el perfil de Usuario : Obtener sus datos
 function obtenerUsuarios(){
+    console.log(idusuario , "idusuarios");
+    console.log("datos");
     $.ajax({
         url: 'controllers/usuario.controller.php',
         type: 'GET',
         dataType: 'JSON',
         data: 'op=obtenerUsuario&idusuario=' + idusuario,
         success: function(datos){
-            $("#apellidos").val(datos[0].apellidosuser);
-            $("#nombres").val(datos[0].nombresuser);
+            console.log(datos);
             $("#nombresusuario").val(datos[0].nomuser);
             $("#correoperfil").val(datos[0].correo);
-            $("#numerodniperfil").val(datos[0].numerodni);
-            
-            if(datos[0].nivelacceso == "U"){
-                $("#nivelaccesoperfil").val('Usuario');
+
+            if(datos[0].nivelacceso == "C"){
+                $("#nivelaccesoperfil").val('Consultas');
             }else if(datos[0].nivelacceso == "A"){
                 $("#nivelaccesoperfil").val('Administrador');
-            }else if(datos[0].nivelacceso == "R"){
-                $("#nivelaccesoperfil").val('Revisador');
             }
 
             $("#telefonoperfil").val(datos[0].telefono);
         
-            
             bloquearCajas();
             $("#guardarPerfil").hide();
         }
@@ -412,12 +404,15 @@ $("#btnCargarEmpleado").click(function(){
 
 //Evento para el boton de editar la informacion en el perfil del Usuario
 $("#editar").click(function(){
+ 
     desbloquearCajas();
     $("#guardarPerfil").show();
 });
 
 //Eveento para el boton de Guardar la modificacion en el perfil del usuario
 $("#guardarPerfil").click(function(){
+    console.log(idusuario , "idusuario");
+    obtenerUsuarios();
     actualizarUsuario();
 });
 

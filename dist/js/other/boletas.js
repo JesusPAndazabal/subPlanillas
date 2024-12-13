@@ -38,45 +38,87 @@ function listarBoletasConsulta(numeroDocBoleta) {
     });
 }
 
-function listarBoletasUsuarios(){
+function listarBoletasUsuarios() {
     var anioConsulta = $("#anioConsulta").val();
     var mesConsulta = $("#mesConsulta").val();
 
-    datos = {
+    // Mostrar el spinner en el tbody
+    $("#datos-consulta").html(`
+        <tr>
+            <td colspan="10" class="text-center">
+                <i class="fas fa-spinner fa-spin" style="font-size: 24px;"></i> Cargando datos, por favor espere...
+            </td>
+        </tr>
+    `);
+
+    var datos = {
         'op': 'buscarConsultaUsuarios',
-        'numeroDoc' : numeroDocBoleta,
+        'numeroDoc': numeroDocBoleta,
         'anio': anioConsulta,
-        'mes' : mesConsulta
+        'mes': mesConsulta
     };
+
 
     $.ajax({
         url: 'controllers/boleta.controller.php',
         type: 'GET',
         data: datos,
-        success: function (e) {
-            $("#tabla-consulta").DataTable().destroy();
+        success: function (response) {
+            // Destruir el DataTable si ya fue inicializado
+            if ($.fn.DataTable.isDataTable("#tabla-consulta")) {
+                $("#tabla-consulta").DataTable().destroy();
+            }
 
-            // Agregar datos en el cuerpo de la tabla detalle
-            $("#datos-consulta").html(e);
+            // Reemplazar el contenido del tbody con la respuesta
+            $("#datos-consulta").html(response);
 
-            console.log("Consulta de usuarios" , e);
-
-            // Volver a generar el dataTable
             $("#tabla-consulta").DataTable({
                 paging: true,
                 lengthChange: true,
                 pageLength: 8,
-                language: { url: '//cdn.datatables.net/plug-ins/1.10.24/i18n/Spanish.json' },
+                language: {
+                    url: '//cdn.datatables.net/plug-ins/1.10.24/i18n/Spanish.json',
+                    emptyTable: ""  // Evitar el mensaje predeterminado de "No hay datos"
+                },
                 searching: false,
                 ordering: false,
                 info: true,
                 autoWidth: false,
-                responsive: true
+                responsive: true,
+                dom: domTableComplete,
+                buttons: buttonsTableMaster,
+                drawCallback: function(settings) {
+                    // Mostrar u ocultar el spinner según el contenido de la tabla
+                    if (settings.aoData.length === 0) {
+                        // Mostrar el spinner en el tbody
+                        $("#datos-consulta").html(`
+                            <tr>
+                                <td colspan="10" class="text-center">
+                                    <i class="fas fa-spinner fa-spin" style="font-size: 24px;"></i> Cargando datos, por favor espere...
+                                </td>
+                            </tr>
+                        `);
+                    } else {
+                        // Si hay datos, ocultar el spinner
+                        $("#spinner").hide();
+                    }
+                }
             });
+            
+        },
+        error: function () {
+            // Mostrar mensaje de error en el tbody
+            $("#datos-consulta").html(`
+                <tr>
+                    <td colspan="10" class="text-center">
+                        Error al cargar los datos. Intente nuevamente.
+                    </td>
+                </tr>
+            `);
         }
     });
-
 }
+
 
 function importacionFonavi() {
     // Obtener valores del formulario
@@ -206,7 +248,8 @@ function listarConsultasAdmin() {
                 autoWidth: false,
                 responsive: true,
                 dom: domTableComplete,
-                buttons: buttonsTableMaster
+                buttons: buttonsTableMaster,
+                
             });
 
              // Mostrar la tabla después de cargar los datos

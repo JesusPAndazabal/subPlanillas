@@ -14,7 +14,6 @@
                 <th>Nombres</th>
                 <th>Apellidos</th>
                 <th>N° de Documento</th>
-                <th>Regimen Pensionario</th>
             </tr>
             </thead>
             <tbody id="datos-personas">

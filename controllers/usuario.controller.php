@@ -178,6 +178,26 @@ if(isset ($_GET['op'])){
 
         $data = $usuario->estadoUsuario(["idusuario" => $_GET['idusuario'] , "estado" => $_GET['estado']]);
     }
+
+    if($_GET['op'] == 'actualizarClave'){
+
+        $claveaccesoAntigua = $_GET['claveaccesoAntigua'];
+        $claveaccesoNueva   = $_GET['claveaccesoNueva'];
+
+        if(password_verify($claveaccesoAntigua, $_SESSION['claveacceso'])){
+            
+            $datos = [
+                "idusuario"     => $_SESSION['idusuario'] , 
+                "claveacceso"   => password_hash($claveaccesoNueva, PASSWORD_BCRYPT)
+            ];
+            
+            $usuario->actualizarClave($datos);
+            echo "";
+
+        }else{
+            echo "La clave anterior  no es correcta";
+        }
+    }
 }
 
 if(isset($_POST['op'])){
@@ -228,11 +248,8 @@ if(isset($_POST['op'])){
 
         $datosEnviar = [
             "idusuario"     => $_SESSION['idusuario'],
-            "apellidosuser" => $_POST['apellidosuser'],
-            "nombresuser"   => $_POST['nombresuser'],
             "nomuser"       => $_POST['nomuser'],
             "correo"        => $_POST['correo'],
-            "numerodni"     => $_POST['numerodni'],
             "nivelacceso"   => $_POST['nivelacceso'],
             "telefono"      => $_POST['telefono']
 

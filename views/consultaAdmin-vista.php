@@ -2,49 +2,6 @@
   <h4 class="text-center">Módulo de Consultas de Boletas<i class="fas fa-user-tie ml-2"></i></h4>
 </div>
 
-<!-- Button trigger modal -->
-<button type="button" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#modalImpresiones">
-  Imprimir Formatos Excel
-</button>
-
-<!-- Modal -->
-<div class="modal fade" id="modalImpresiones" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-  <div class="modal-dialog modal-dialog-centered modal-lg">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabel">IMPRESIÓN DE FORMATOS</h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      <div class="modal-body">
-
-            <div class="row">
-                <div class="col-md-4">
-                    <label for="">Numero de Documento</label>
-                    <input type="number" class="form-control" id="numeroDocPrint">
-                </div>
-                <div class="col-md-4">
-                    <label for="">Año Inicial</label>
-                    <input type="date" class="form-control" id="anioInicial">
-                </div>
-                <div class="col-md-4">
-                    <label for="">Año Final</label>
-                    <input type="date" class="form-control" id="anioFinal">
-                </div>
-            </div>
-            
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-success" id="descargarFonavi">APORTACIONES AL FONAVI</button>
-        <button type="button" class="btn btn-success" id="descargarPreparacion">PREPARACIÓN DE CLASES</button>
-      </div>
-    </div>
-  </div>
-</div>
-
-
-<hr>
 
 <div class="row">
     <div class="col-md-4">
@@ -94,6 +51,10 @@
             </thead>
             <tbody id = "datos-consultaAdmin">
                 <!-- Aquí se cargarán los detalles con JavaScript -->
+                 <!-- Aquí se cargarán los detalles con JavaScript -->
+                 <div id="spinner-consultaAdmin" style="display: none; text-align: center; margin: 20px;">
+                    <i class="fas fa-spinner fa-spin" style="font-size: 24px;"></i> Cargando datos, por favor espere...
+                </div>
             </tbody>
   </table>
 </div>
@@ -115,7 +76,8 @@
                 </tr>
             </thead>
             <tbody id = "datos-consultaVista">
-                <!-- Aquí se cargarán los detalles con JavaScript -->
+               
+
             </tbody>
   </table>
 </div>

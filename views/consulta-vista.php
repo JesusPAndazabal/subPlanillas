@@ -2,6 +2,19 @@
   <h4 class="text-center">Módulo de Consultas de Boletas<i class="fas fa-user-tie ml-2"></i></h4>
 </div>
 
+<style>
+    #spinner {
+    display: none; /* Por defecto está oculto */
+    text-align: center;
+    margin: 20px;
+    }
+
+    .fa-spinner {
+        color: #007bff; /* Color del spinner */
+    }
+
+</style>
+
 <div class="row">
     <div class="col-md-6">
         <label for="">Año</label>
@@ -45,8 +58,15 @@
             </thead>
             <tbody id = "datos-consulta">
                 <!-- Aquí se cargarán los detalles con JavaScript -->
+                <div id="spinner" style="display: none; text-align: center; margin: 20px;">
+                    <i class="fas fa-spinner fa-spin" style="font-size: 24px;"></i> Cargando datos, por favor espere...
+                </div>
             </tbody>
-        </table>
+</table>
+
+
+
+
 
 <!-- Configuracion de alertas personalizadas -->
 <script src="dist/js/configAlerts.js"></script> 

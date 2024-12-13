@@ -6,6 +6,17 @@ BEGIN
 	FROM usuarios WHERE nomuser = _nomuser AND estado = '1';
 END $$
 
+-- *************** Actualizar la contraseña ********************
+DELIMITER $$
+CREATE PROCEDURE spu_usuarios_actualizarclave
+(
+	IN _idusuario 	  INT,
+	IN _claveacceso   VARCHAR(100)
+)
+BEGIN 
+	UPDATE usuarios SET claveacceso = _claveacceso WHERE idusuario = _idusuario;
+END $$
+
 -- Registrar usuarios
 DELIMITER $$
 CREATE PROCEDURE spu_registrar_usuario
@@ -49,7 +60,34 @@ BEGIN
 		WHERE numeroDoc = _numeroDoc;
 END $$
 
+-- obtener a un usuario
+DELIMITER $$
+CREATE PROCEDURE spu_usuarios_obtener(IN _idusuario INT)
+BEGIN 
+	SELECT * FROM usuarios
+		WHERE idusuario = _idusuario;
+END $$
 
+-- Actualizar usuario
+DELIMITER $$
+CREATE PROCEDURE spu_modificar_usuarios
+(
+	IN  _idusuario		INT,
+	IN  _nomuser		VARCHAR(30),
+	IN  _correo		VARCHAR(70),	
+	IN  _nivelacceso	CHAR(1),
+	IN  _telefono 		CHAR(11)
+)
+BEGIN 
+	IF _telefono = '' THEN SET _telefono = NULL; END IF;
+	
+	UPDATE usuarios SET 
+		nomuser	      = _nomuser,
+		correo	      = _correo,
+		nivelacceso   = _nivelacceso,
+		telefono      = _telefono
+	WHERE idusuario = _idusuario;	
+END $$
 
 -- Procedimiento para crear un periodo 
 DELIMITER $$
