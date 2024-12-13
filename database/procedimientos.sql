@@ -145,6 +145,33 @@ BEGIN
 	  AND (mes = _mes OR _mes IS NULL);
 END $$
 
+-- Filtro para usuarios externos
+DELIMITER $$
+CREATE PROCEDURE spu_filtroConsultasUsuarios
+(
+	IN _numeroDoc CHAR(11),
+	IN _anio 	CHAR(4),
+	IN _mes		VARCHAR(40)
+)
+BEGIN 
+
+	-- Si _mes es una cadena vacía, lo convertimos en NULL
+	    IF _mes = '' THEN
+		SET _mes = NULL;
+	    END IF;
+	    
+	       -- Si _anio es una cadena vacía, lo convertimos en NULL
+	    IF _anio = '' THEN
+		SET _anio = NULL;
+	    END IF;
+	    
+	SELECT * 
+	FROM vs_boletasConsultas
+	WHERE (numeroDoc = _numeroDoc OR _numeroDoc IS NULL)
+	  AND (anio = _anio OR _anio IS NULL)
+	  AND (mes = _mes OR _mes IS NULL);
+END $$
+
 
 
 

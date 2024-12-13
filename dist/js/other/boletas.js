@@ -38,6 +38,46 @@ function listarBoletasConsulta(numeroDocBoleta) {
     });
 }
 
+function listarBoletasUsuarios(){
+    var anioConsulta = $("#anioConsulta").val();
+    var mesConsulta = $("#mesConsulta").val();
+
+    datos = {
+        'op': 'buscarConsultaUsuarios',
+        'numeroDoc' : numeroDocBoleta,
+        'anio': anioConsulta,
+        'mes' : mesConsulta
+    };
+
+    $.ajax({
+        url: 'controllers/boleta.controller.php',
+        type: 'GET',
+        data: datos,
+        success: function (e) {
+            $("#tabla-consulta").DataTable().destroy();
+
+            // Agregar datos en el cuerpo de la tabla detalle
+            $("#datos-consulta").html(e);
+
+            console.log("Consulta de usuarios" , e);
+
+            // Volver a generar el dataTable
+            $("#tabla-consulta").DataTable({
+                paging: true,
+                lengthChange: true,
+                pageLength: 8,
+                language: { url: '//cdn.datatables.net/plug-ins/1.10.24/i18n/Spanish.json' },
+                searching: false,
+                ordering: false,
+                info: true,
+                autoWidth: false,
+                responsive: true
+            });
+        }
+    });
+
+}
+
 function importacionFonavi() {
     // Obtener valores del formulario
     var numeroDoc = $("#numeroDocPrint").val();
@@ -112,6 +152,24 @@ function importacionPreparacionClases() {
     });
 }
 
+function listarConsultasVista(){
+    var tabla = $("#tabla-consultaVista").DataTable();
+    tabla.destroy();    
+
+    tabla = $("#tabla-consultaVista").DataTable({
+        "processing"    : true,
+        "order"         : [[0, "desc"]],
+        "serverSide"    : true,
+        "sAjaxSource"   : 'controllers/boleta.controller.php?op=listarConsultasVista',
+        "lengthChange"  : true,
+        "pageLength"    : 8,
+        "language"      : { url : '//cdn.datatables.net/plug-ins/1.10.24/i18n/Spanish.json'},
+        "dom"           : domtableBasic,
+        "buttons"       : buttonsTableMaster
+    });
+} 
+
+
 function listarConsultasAdmin() {
     var numeroDocFiltro = $("#numeroDoc").val();
     var anioFiltro = $("#anio").val();
@@ -153,6 +211,7 @@ function listarConsultasAdmin() {
 
              // Mostrar la tabla después de cargar los datos
              $("#contenedor-tabla-consulta").fadeIn();
+             $("#contenedor-consultaVista").fadeOut();
         }
     });
 }
@@ -173,6 +232,19 @@ $("#anio").on("keyup", function () {
 $("#mes").on("change", function () {
     listarConsultasAdmin();
 });
+
+
+// Evento keyup para buscar por año
+$("#anioConsulta").on("keyup", function () {
+    listarBoletasUsuarios();
+});
+
+// Evento change para el mes, en caso de que se seleccione un mes
+$("#mesConsulta").on("change", function () {
+    listarBoletasUsuarios();
+});
+
+
 
 // Asociar el evento al botón
 $("#descargarFonavi").click(function () {
@@ -201,5 +273,5 @@ $("#tabla-consultaAdmin").on("click", ".reporte", function () {
 
 
 
-
+listarConsultasVista();
 listarBoletasConsulta(numeroDocBoleta);

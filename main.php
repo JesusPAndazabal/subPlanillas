@@ -16,7 +16,7 @@ if ($_SESSION['acceso'] == false){
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>QuerySheet</title>
+  <title>APLICATIVO | CONSULTA BOLETAS</title>
 
   <!-- Google Font: Source Sans Pro -->
   <link href="https://fonts.googleapis.com/css2?family=Lora&family=Maven+Pro&display=swap" rel="stylesheet">
@@ -129,7 +129,7 @@ if ($_SESSION['acceso'] == false){
       <li class="nav-item dropdown user user-menu">
         
         <a a href="#" class="nav-link text-overflow" data-toggle="dropdown" >
-          <span class="hidden-xs "><?= $_SESSION['nombresuser'] , " " , $_SESSION['apellidosuser']; ?></span>
+          <span class="hidden-xs" style="color: white; font-size:2s8px">Configuraciones</span>
         </a>
 
           <div class="dropdown-menu">
@@ -167,12 +167,8 @@ if ($_SESSION['acceso'] == false){
   <!-- Main Sidebar Container -->
   <aside class="main-sidebar sidebar-dark-primary elevation-4">
     <!-- Brand Logo -->
-    <a href="#" class="brand-link">
-      <!-- <img src="dist/img/logo-editado-5.png" alt="" class="logo"> -->
-
-  
-      <h4 class="brand-text font-weight-bold text-center mt-4" style="color:white"><i class="fas fa-clipboard-list"></i> QuerySheet </h4>
-    
+    <a href="#" class="brand-link mt-3">
+      <img src="dist/img/logoHuaytara.png" alt="" class="logo" style="width: 230px;">
     </a>
 
     <!-- Sidebar -->
@@ -216,7 +212,7 @@ if ($_SESSION['acceso'] == false){
                       echo "
                         <li class='nav-item'>
                           <a href='main.php?view=subirArchivo-vista' class='nav-link btn-profile-index' style='color:white'>
-                          <i class='nav-icon fas fa-file-archive'></i>
+                          <i class='nav-icon fas fa-upload'></i>
                             <p>
                               IMPORTAR BOLETA
                             </p>
@@ -225,9 +221,18 @@ if ($_SESSION['acceso'] == false){
 
                         <li class='nav-item'>
                           <a href='main.php?view=consultaAdmin-vista' class='nav-link btn-profile-index' style='color:white'>
-                          <i class='nav-icon fas fa-file-archive'></i>
+                          <i class='nav-icon fas fa-search-plus'></i>
                             <p>
                               CONSULTAR BOLETA
+                            </p>
+                          </a>                  
+                        </li>
+
+                        <li class='nav-item'>
+                          <a href='main.php?view=consultaAdmin-vista' class='nav-link btn-profile-index' style='color:white'>
+                          <i class='nav-icon fas fa-file-signature'></i>
+                            <p>
+                              REPORTES
                             </p>
                           </a>                  
                         </li>
@@ -248,6 +253,18 @@ if ($_SESSION['acceso'] == false){
                             </p>
                           </a>                  
                         </li>
+
+                        <li class='nav-header'>ACCESOS</li>
+
+                        <li class='nav-item'>
+                          <a href='main.php?view=consulta-vista  ' class='nav-link btn-profile-index' style='color:white'>
+                          <i class='nav-icon fas fa-file-archive'></i>
+                            <p>
+                              Mi Perfil
+                            </p>
+                          </a>                  
+                        </li>
+
                       ";
                   }
               ?> 
@@ -305,7 +322,7 @@ if ($_SESSION['acceso'] == false){
                       <li class='nav-header'>ACCESOS</li>
                       <li class='nav-item'>
                         <a href='main.php?view=usuarios-vsta' class='nav-link btn-profile-index' style='color:white'>
-                        <i class='nav-icon fas fa-file-archive'></i>
+                        <i class='nav-icon fas fa-id-card'></i>
                           <p>
                             USUARIOS
                           </p>

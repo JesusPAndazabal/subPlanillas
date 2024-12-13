@@ -97,6 +97,29 @@
             </tbody>
   </table>
 </div>
+
+<div id="contenedor-consultaVista">
+  <table class="table table-valign-middle table-striped text-center" id="tabla-consultaVista">
+            <thead>
+                <tr>
+                    <th>N°</th>
+                    <th>Apellidos</th>
+                    <th>Nombres</th>
+                    <th>N° Documento</th>
+                    <th>Cargo</th>
+                    <th>Establecimiento</th>
+                    <th>Tipo</th>
+                    <th>Mes</th>
+                    <th>Año</th>
+                    <!-- Otros campos si es necesario -->
+                </tr>
+            </thead>
+            <tbody id = "datos-consultaVista">
+                <!-- Aquí se cargarán los detalles con JavaScript -->
+            </tbody>
+  </table>
+</div>
+        
         
 
 <!-- Configuracion de alertas personalizadas -->

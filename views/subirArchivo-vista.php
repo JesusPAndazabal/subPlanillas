@@ -1,5 +1,5 @@
 <div class='callout callout-success'>
-    <h3 class='text-center'>Dashboard <i class='fas fa-chart-bar ml-2'></i></h3>
+    <h3 class='text-center'>Modulo de Importación de Archivos <i class='fas fa-chart-bar ml-2'></i></h3>
 </div>
 
 <div>
@@ -79,14 +79,14 @@
             </div>
 
             <div class="col-md-4">
-                
+                <div class="form-group">
+                    <label for="archivoLis">Seleccionar archivo Formato .lis:</label>
+                    <input type="file" id="archivoLis" class="form-control-file" name="archivoLis" accept=".lis" required />
+                </div>        
             </div>
         </div>
 
-        <div class="form-group">
-            <label for="archivoLis">Seleccionar archivo .lis:</label>
-            <input type="file" id="archivoLis" class="form-control-file" name="archivoLis" accept=".lis" required />
-        </div>
+        
         
         <button type="button" id="subirArchivo" class="btn btn-success">Importar Archivo</button>
     </form>

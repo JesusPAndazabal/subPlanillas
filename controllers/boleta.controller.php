@@ -40,9 +40,9 @@ if(isset($_GET['op'])){
         }
     }
 
-  /*   if($_GET['op'] == 'listarConsultasAdmin'){
+    if($_GET['op'] == 'listarConsultasVista'){
         $data = $serverSide->get("vs_boletasConsultasVista", "idboleta", array("idboleta", "nombres", "apellidos", "numeroDoc" , "descripcion", "nombre", "tipoServi", "mes", "anio"));
-    }  */
+    } 
 
     // Opción para listar las consultas administrativas
     if ($_GET['op'] == 'listarConsultasAdmin') {
@@ -73,6 +73,18 @@ if(isset($_GET['op'])){
         $data = $boleta->buscarplanillaDni($params);
         listarBoletasConsulta($data);
     }
+
+    if ($_GET['op'] == 'buscarConsultaUsuarios') {
+        $params = [
+            'numeroDoc' => $_GET['numeroDoc'] ?? null,
+            'anio' => $_GET['anio'] ?? null,
+            'mes' => $_GET['mes'] ?? null
+        ];
+
+        $data = $boleta->buscarBoletaUsuarios($params);
+        listarBoletasConsulta($data);
+    }
+    
 
  
 }
