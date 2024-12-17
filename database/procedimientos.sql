@@ -210,6 +210,29 @@ BEGIN
 	  AND (mes = _mes OR _mes IS NULL);
 END $$
 
+DELIMITER $$
+CREATE PROCEDURE spu_obtener_licencias(IN _idlicencia INT)
+BEGIN 
+	SELECT * FROM licencias WHERE idlicencia = _idlicencia;
+END $$
+
+
+DELIMITER $$
+CREATE PROCEDURE spu_modificar_fechaLicencia
+(
+	IN _idlicencia         INT,
+	IN _fecha_vencimiento  DATE,
+	IN _estado	       ENUM('activa', 'inactiva')
+)
+BEGIN 
+    -- Actualizar solo la fecha de vencimiento
+    UPDATE licencias
+    SET
+        fecha_vencimiento = _fecha_vencimiento,
+        estado		 = _estado
+    WHERE idlicencia = _idlicencia;
+END $$
+
 
 
 

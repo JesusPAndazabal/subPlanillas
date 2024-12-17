@@ -142,5 +142,15 @@ CREATE TABLE boletas
 )ENGINE=INNODB;
 
 
+CREATE TABLE licencias (
+    idlicencia         INT AUTO_INCREMENT PRIMARY KEY,
+    clave              VARCHAR(50) UNIQUE NOT NULL, -- Clave única de la licencia
+    fecha_vencimiento  DATE NOT NULL,               -- Fecha de vencimiento de la licencia
+    estado             ENUM('activa', 'inactiva') NOT NULL DEFAULT 'activa', -- Estado de la licencia
+    fecharegistro      DATETIME NOT NULL DEFAULT NOW(), -- Fecha en que se registró la licencia
+    comentario         VARCHAR(255) NULL            -- Opcional: Información adicional
+)ENGINE=INNODB;
+
+
 
 

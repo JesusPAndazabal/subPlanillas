@@ -91,19 +91,9 @@ INNER JOIN cargos CARG ON CARG.idcargo = BOL.idcargo
 INNER JOIN establecimientos EST ON EST.idestablecimiento = BOL.idestablecimiento
 INNER JOIN regimenLaborales REG ON REG.idregimenLaboral = BOL.idregimenLaboral
 INNER JOIN periodos PERI ON PERI.idperiodo = BOL.idperiodo
-LEFT JOIN vs_conceptos_bono CONC ON CONC.idboleta = BOL.idboleta
+LEFT JOIN vs_conceptos_bono CONC ON CONC.idboleta = BOL.idboleta;
 -- ORDER BY PERI.anio;
 
-SELECT * FROM vs_boletasConsultasLivi WHERE numeroDoc = 21408702
-
-SELECT * FROM vs_boletasConsultas WHERE numeroDoc = 21456705
-
-SELECT * FROM boletas 
-
-
-DELETE FROM periodos WHERE idperiodo = 240
-SELECT * FROM periodos 
-SELECT * FROM archivos
 
 CREATE VIEW vs_boletasConsultasVista AS
 SELECT 
@@ -154,7 +144,7 @@ INNER JOIN cargos CARG ON CARG.idcargo = BOL.idcargo
 INNER JOIN establecimientos EST ON EST.idestablecimiento = BOL.idestablecimiento
 INNER JOIN regimenLaborales REG ON REG.idregimenLaboral = BOL.idregimenLaboral
 INNER JOIN periodos PERI ON PERI.idperiodo = BOL.idperiodo
-left JOIN vs_conceptos_bono CONC ON CONC.idboleta = BOL.idboleta
+LEFT JOIN vs_conceptos_bono CONC ON CONC.idboleta = BOL.idboleta
 LIMIT 30;
 
 
