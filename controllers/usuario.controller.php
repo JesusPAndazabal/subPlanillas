@@ -70,6 +70,8 @@ if(isset ($_GET['op'])){
                     $rol = "Administrador";
                 }elseif($rol == 'C'){
                     $rol = "Consultas";
+                } elseif($rol == 'S'){
+                    $rol = "SuperAdmin";
                 } 
 
 

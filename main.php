@@ -1,13 +1,56 @@
 <?php
-
 session_start();
 
-if ($_SESSION['acceso'] == false){
+// Configuración de conexión a la base de datos
+//$conexion = new mysqli("localhost", "root", "", "querysheet");
 
-  
-  header('Location:index.php');
+//Produccion
+$conexion = new mysqli("localhost", "root", "", "db_archiPlanillas");
+
+// Verificar la conexión
+if ($conexion->connect_error) {
+    die("Error de conexión: " . $conexion->connect_error);
 }
 
+// Variables de licencia
+$clave_licencia = 'LICENCIA-001';
+
+// Validar la licencia
+$query = "SELECT fecha_vencimiento, estado FROM licencias WHERE clave = '$clave_licencia'";
+$resultado = $conexion->query($query);
+
+if ($resultado->num_rows > 0) {
+    $fila = $resultado->fetch_assoc();
+    $fecha_vencimiento = new DateTime($fila['fecha_vencimiento']);
+    $fecha_actual = new DateTime();
+
+    // Validar si la licencia está activa y no vencida
+    if ($fila['estado'] !== 'activa') {
+        die("<h3>Error: La licencia está inactiva. Contacte al soporte para actualizar la licencia.</h3>");
+    }
+
+    // Si la licencia está vencida
+    if ($fecha_actual > $fecha_vencimiento) {
+        // Verificar si el usuario está logueado
+        if (isset($_SESSION['acceso']) && $_SESSION['acceso'] == true) {
+            // Si no es SuperAdmin, redirigir fuera de la página
+            if ($_SESSION['nivelacceso'] != 'SuperAdmin') {
+                die("<h3>Error: La licencia ha expirado. Solo el SuperAdmin puede acceder. Contacte al soporte.</h3>");
+            }
+        } else {
+            // Si no está logueado, redirigir al login
+            header('Location: index.php');
+     
+        }
+    }
+} else {
+    die("<h3>Error: No se encontró una licencia válida. Contacte al soporte.</h3>");
+}
+
+// Asegurarse de que el usuario esté logueado y que la sesión sea válida
+if (!isset($_SESSION['acceso']) || $_SESSION['acceso'] != true) {
+    header('Location: index.php');
+}
 ?>
 
 
@@ -133,7 +176,7 @@ if ($_SESSION['acceso'] == false){
         </a>
 
           <div class="dropdown-menu">
-            <a class="dropdown-item" href='main.php?view=perfilUsuario-vista' data-idusuario = "<?php echo $_SESSION['idusuario'] ?>" id="perfil">Mi Perfil<i class="fas fa-user ml-2"></i></a>
+            <a class="dropdown-item" href='main.php?view=perfil-vista' data-idusuario = "<?php echo $_SESSION['idusuario'] ?>" id="perfil">Mi Perfil<i class="fas fa-user ml-2"></i></a>
             <a class="dropdown-item" href="controllers/usuario.controller.php?op=cerrar-sesion">Cerrar sesión<i class="fas fa-power-off ml-2"></i></a>
           </div>
 
@@ -205,10 +248,24 @@ if ($_SESSION['acceso'] == false){
                 </a>
               </li>
 
+              <?php 
+                  if($_SESSION['nivelacceso'] == "SuperAdmin"){
+                      echo "
+                      <li class='nav-item'>
+                        <a href='main.php?view=licencias-vista' class='nav-link' style='color:white'>
+                          <i class='fas fa-user nav-icon'></i>
+                          <p>LICENCIAS</p>
+                        </a>
+                      </li>    
+                      ";
+                  }
+                          
+                ?>
+
               <li class='nav-header'>PLANILLAS</li>
 
               <?php
-                  if($_SESSION['nivelacceso'] == "Administrador" ){
+                  if($_SESSION['nivelacceso'] == "Administrador" || $_SESSION['nivelacceso'] == "SuperAdmin" ){
                       echo "
                         <li class='nav-item'>
                           <a href='main.php?view=subirArchivo-vista' class='nav-link btn-profile-index' style='color:white'>
@@ -270,7 +327,7 @@ if ($_SESSION['acceso'] == false){
               ?> 
 
               <?php
-                  if($_SESSION['nivelacceso'] == "Administrador" ){
+                  if($_SESSION['nivelacceso'] == "Administrador" || $_SESSION['nivelacceso'] == "SuperAdmin" ){
                       echo "
                         <li class='nav-header'>MENU</li>
               
@@ -317,7 +374,7 @@ if ($_SESSION['acceso'] == false){
               
 
               <?php
-                if($_SESSION['nivelacceso'] == "Administrador" ){
+                if($_SESSION['nivelacceso'] == "Administrador" || $_SESSION['nivelacceso'] == "SuperAdmin"){
                     echo "
                       <li class='nav-header'>ACCESOS</li>
                       <li class='nav-item'>
@@ -415,10 +472,10 @@ if ($_SESSION['acceso'] == false){
 
   <!-- Main Footer -->
   <footer class="main-footer text-sm">
-    <strong>Copyright &copy; 2022 <a href="">QuerySheet</a>.</strong>
+    <strong>Copyright &copy; 2024 <a href="">JPA</a>.</strong>
     Todos los derechos reservados JPA.
     <div class="float-right d-none d-sm-inline-block">
-      <b>Version</b> 3.2.0
+      <b>Version</b> 0.1
     </div>
   </footer>
 </div>

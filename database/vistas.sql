@@ -1,6 +1,16 @@
 CREATE VIEW vs_personas AS
 SELECT  * FROM personas;
 
+CREATE VIEW vs_usuarios AS
+SELECT * FROM usuarios
+WHERE estado = '1' OR estado = '0';
+
+
+CREATE VIEW vs_licencias
+AS 
+SELECT * FROM licencias;
+
+
 CREATE VIEW vs_periodos AS
 SELECT idperiodo , tipo , 
  CASE 
@@ -178,13 +188,6 @@ INNER JOIN personas PER ON PER.idpersona = BOL.idpersona
 INNER JOIN cargos CARG ON CARG.idcargo = BOL.idcargo
 INNER JOIN establecimientos EST ON EST.idestablecimiento = BOL.idestablecimiento
 INNER JOIN periodos PERI ON PERI.idperiodo = BOL.idperiodo;
-
-
-
-
-
-  
-
 
 
 CREATE VIEW vs_conceptos AS

@@ -3,7 +3,7 @@ DELIMITER $$
 CREATE PROCEDURE spu_usuarios_login(IN _nomuser VARCHAR(30))
 BEGIN
 	SELECT *
-	FROM usuarios WHERE nomuser = _nomuser AND estado = '1';
+	FROM usuarios WHERE nomuser = _nomuser AND estado = '1' OR estado = '2';
 END $$
 
 -- *************** Actualizar la contraseña ********************
@@ -35,9 +35,9 @@ DELIMITER $$
 CREATE PROCEDURE spu_buscarUsuarios
 (
 	IN _search 	VARCHAR(50)
-)
+)	
 BEGIN
-	SELECT * FROM usuarios
+	SELECT * FROM vs_usuarios
 		WHERE nomuser LIKE CONCAT('%', _search ,'%');
 END $$
 
@@ -48,7 +48,7 @@ CREATE PROCEDURE spu_buscarUsuariosRol
 	IN _search 	VARCHAR(50)
 )
 BEGIN
-	SELECT * FROM usuarios
+	SELECT * FROM vs_usuarios
 		WHERE nivelacceso = _nivelacceso AND nomuser LIKE CONCAT('%', _search ,'%');
 END $$
 

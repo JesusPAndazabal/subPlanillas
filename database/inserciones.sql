@@ -1,10 +1,16 @@
 INSERT INTO usuarios (nivelacceso , nomuser , correo , claveacceso)VALUES
 			('A' ,'jesus', 'jesusmauricio@gmail.com', '123456');
 			
+INSERT INTO usuarios (nivelacceso , nomuser , correo , claveacceso, estado)VALUES
+			('S' ,'anonimus', 'anonimus@gmail.com', '123456' ,'2');
+			
+INSERT INTO licencias (clave, fecha_vencimiento, estado, comentario)
+VALUES ('LICENCIA-001', '2025-12-31', 'activa', 'Licencia de prueba válida hasta 2025');
+			
 			
 UPDATE usuarios
 	SET claveacceso = '$2y$10$J7gowuuVf0ofrzV.eP.hEO9vexj7ccfi.I.wqf7i7u1HTpSroGqrC'
-	WHERE idusuario = 1;
+	WHERE idusuario = 3;
 	
 	
 SELECT * FROM usuarios

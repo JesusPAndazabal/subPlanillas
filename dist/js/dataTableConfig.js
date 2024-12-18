@@ -129,6 +129,16 @@ var columnDefsEmpleados = [
   }
 ]
 
+var columnDefLicencias = [
+    {
+        "data"   : null,
+        render : function(data, type, row){
+            return `<a class='btn btn-sm btn-info modificar' data-idlicencia='${data[0]}' href='#'><i class='fas fa-edit'></i></a>`;
+        },
+        "targets"    : 6    
+    }
+]
+
 var columnDefsConsultasAdmin = [
     {
         "data"   : null,
