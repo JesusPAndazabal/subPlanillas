@@ -5,7 +5,7 @@ session_start();
 //$conexion = new mysqli("localhost", "root", "", "querysheet");
 
 //Produccion
-$conexion = new mysqli("localhost", "root", "", "db_archiPlanillas");
+$conexion = new mysqli("localhost", "ug9542", "3ErpPKR-pdUSpme", "ug9542_db_archiPlanillas");
 
 // Verificar la conexión
 if ($conexion->connect_error) {

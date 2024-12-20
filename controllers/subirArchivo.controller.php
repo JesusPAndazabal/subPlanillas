@@ -9,9 +9,9 @@ session_start();
 
 // Conexión a la base de datos
 $servername = "localhost";  
-$username = "root";         
-$password = "";             
-$dbname = "db_archiPlanillas"; 
+$username = "ug9542";         
+$password = "3ErpPKR-pdUSpm";             
+$dbname = "ug9542_db_archiPlanillas"; 
 
 $conn = new mysqli($servername, $username, $password, $dbname);
 
